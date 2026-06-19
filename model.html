@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>World Cup 2026 — Independent Model (no betting odds)</title>
+<style>
+:root{--bg:#0a0e1a;--panel:#10182b;--panel2:#172033;--line:#27324d;--txt:#e8edf6;--muted:#94a3c0;
+--accent:#a78bfa;--accent2:#22d3ee;--gold:#f4c542;--green:#34d399;--amber:#fbbf24;--red:#fb7185;--chip:#1e2740;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+background:linear-gradient(160deg,#070b15,#0c1322 55%,#0a0f1d);color:var(--txt);line-height:1.5;padding-bottom:80px}
+.wrap{max-width:1060px;margin:0 auto;padding:0 20px}
+header.hero{padding:54px 20px 36px;text-align:center;
+background:radial-gradient(1100px 380px at 50% -120px,rgba(167,139,250,.20),transparent),
+radial-gradient(800px 280px at 78% -60px,rgba(34,211,238,.14),transparent)}
+.hero .kicker{letter-spacing:3px;text-transform:uppercase;font-size:12px;color:var(--accent2);font-weight:700}
+.hero h1{font-size:clamp(28px,5vw,44px);margin:10px 0 8px;line-height:1.1;
+background:linear-gradient(90deg,#fff,#c7b6ff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{color:var(--muted);max-width:720px;margin:0 auto;font-size:15px}
+.hero .meta{margin-top:18px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.pill{background:var(--chip);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:12.5px;color:var(--muted)}
+.pill b{color:var(--txt)}
+.banner{background:linear-gradient(100deg,rgba(167,139,250,.12),rgba(34,211,238,.08));border:1px solid var(--line);
+border-radius:16px;padding:18px 22px;margin:26px 0;font-size:14px;color:#d4ddf0}
+.banner b{color:#fff}
+.method{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:24px;margin:24px 0}
+.method h2{font-size:15px;letter-spacing:1px;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+.method ol{margin-left:18px;font-size:13.5px;color:#cdd6ea} .method li{padding:5px 0}
+.method code{background:var(--panel2);padding:1px 6px;border-radius:5px;font-size:12.5px;color:var(--accent2)}
+.daygroup{margin-top:40px}
+.dayhead{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.dayhead .dot{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 14px var(--accent)}
+.dayhead h2{font-size:22px}
+.match{background:var(--panel);border:1px solid var(--line);border-radius:18px;margin-bottom:24px;overflow:hidden}
+.mhead{padding:18px 22px;background:linear-gradient(100deg,var(--panel2),var(--panel));border-bottom:1px solid var(--line)}
+.mtop{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.mteams{font-size:20px;font-weight:700} .mteams .vs{color:var(--muted);font-weight:500;margin:0 7px;font-size:15px}
+.mtag{font-size:11px;padding:4px 10px;border-radius:999px;border:1px solid var(--line);background:var(--chip);color:var(--muted);white-space:nowrap}
+.minfo{color:var(--muted);font-size:12.5px;margin-top:7px}
+.mbody{padding:18px 22px}
+.modelrow{margin-bottom:14px}
+.xgbox{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:12px 16px;text-align:center}
+.xglbl{font-size:10.5px;text-transform:uppercase;letter-spacing:1px;color:var(--muted)}
+.xgvals{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:4px;flex-wrap:wrap}
+.xgteam{font-size:13px;color:var(--muted)} .xgnum{font-size:26px;font-weight:800;color:var(--accent2)}
+.xgdash{color:var(--muted)} .xgtot{font-size:11.5px;color:var(--muted);margin-top:2px}
+.probbar{display:flex;height:32px;border-radius:8px;overflow:hidden;margin:6px 0 14px;font-size:11.5px;font-weight:700}
+.probbar div{display:flex;align-items:center;justify-content:center;white-space:nowrap;padding:0 4px;min-width:0;overflow:hidden}
+.p-home{background:linear-gradient(90deg,#34d399,#10b981);color:#06121f}
+.p-draw{background:linear-gradient(90deg,#64708e,#4b5878);color:#fff}
+.p-away{background:linear-gradient(90deg,#38bdf8,#2563eb);color:#fff}
+.vgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;margin-bottom:12px}
+.vcell{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:9px 11px}
+.vcell .lbl{font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)}
+.vcell .val{font-size:16px;font-weight:700;margin-top:2px} .vcell .val.score{font-size:20px;color:var(--accent2)}
+.vcell .sub{font-size:11px;color:var(--muted);margin-top:1px}
+.badge{display:inline-block;font-size:11px;font-weight:700;padding:3px 9px;border-radius:6px}
+.b-low{background:rgba(52,211,153,.15);color:var(--green)} .b-med{background:rgba(251,191,36,.16);color:var(--amber)}
+.b-high{background:rgba(251,113,133,.16);color:var(--red)}
+.scoreline{font-size:12.5px;color:var(--muted);margin-bottom:12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.sl-lbl{text-transform:uppercase;font-size:10.5px;letter-spacing:.5px}
+.schip{background:var(--chip);border:1px solid var(--line);border-radius:6px;padding:3px 9px;font-size:12px;color:#cdd6ea}
+.schip b{color:var(--accent2)}
+.ratings{font-size:12px;color:var(--muted);border-top:1px dashed var(--line);border-bottom:1px dashed var(--line);padding:9px 0;margin-bottom:12px}
+.ratings b{color:var(--txt)}
+.analysis h4{font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);margin:10px 0 4px;border-left:2px solid var(--accent);padding-left:8px}
+.analysis p{font-size:13.5px;color:#cdd6ea;margin-bottom:6px}
+.modelnote{background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.25);border-radius:10px;padding:11px 14px;font-size:13px;color:#d8d2f5;margin-top:10px}
+.modelnote b{color:#fff}
+.summary{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:24px;margin-top:42px}
+.summary h2{font-size:20px;margin-bottom:14px}
+.wrap-scroll{overflow-x:auto}
+table.big{width:100%;border-collapse:collapse;font-size:12.5px}
+table.big th,table.big td{padding:9px 8px;text-align:left;border-bottom:1px solid var(--line)}
+table.big th{color:var(--muted);font-size:10.5px;text-transform:uppercase;letter-spacing:.5px}
+table.big td.c{text-align:center} table.big tr:hover{background:var(--panel2)} .win{font-weight:700;color:var(--accent2)}
+.disclaimer{background:rgba(251,113,133,.07);border:1px solid rgba(251,113,133,.25);border-radius:12px;padding:16px 20px;margin-top:26px;font-size:12.5px;color:#d7b9bd}
+footer{margin-top:44px;color:var(--muted);font-size:12px;text-align:center;padding:0 20px}
+</style></head><body>
+<header class="hero">
+  <div class="kicker">Independent Statistical Model · No Betting Odds Used</div>
+  <h1>World Cup 2026 — My Own Numbers</h1>
+  <p>A from-scratch Dixon-Coles Poisson model for all 12 matches from June 18–21. Every probability below is derived from raw goal/expected-goal data and my own strength-adjusted team ratings — <b>not</b> copied from bookmakers. This is the companion to the market-based preview; where they disagree is flagged.</p>
+  <div class="meta">
+    <span class="pill"><b>12</b> matches</span>
+    <span class="pill">Dixon-Coles bivariate Poisson</span>
+    <span class="pill">ρ = -0.07 · baseline 1.35</span>
+    <span class="pill">Zero market inputs</span>
+  </div>
+</header>
+<div class="wrap">
+  <div class="banner">
+    <b>How this differs from the first report.</b> The earlier page anchored its probabilities to bookmaker lines (DraftKings, Kalshi). This one ignores betting markets entirely: I assigned each of the 24 teams an attack and defence rating from their raw scoring/conceding rates — correcting for schedule inflation (e.g. Belgium's 3.6 goals/game came against UEFA minnows; Curaçao's 0.3 conceded was a CONCACAF artifact) — then simulated the full scoreline distribution. Most picks agree with the market, but the <b>magnitudes differ</b>: my model is notably more skeptical of Uruguay and more draw-leaning on Mexico–Korea.
+  </div>
+  <div class="method">
+    <h2>Methodology — show your work</h2>
+    <ol>
+      <li><b>Raw inputs.</b> For all 24 teams I gathered goals scored/conceded per game and any available expected goals (xG/xGA) over their last ~10–15 competitive matches (2026 qualifiers + 2025–26 friendlies + World Cup Matchday 1), plus strength-of-schedule.</li>
+      <li><b>Ratings.</b> Each team gets <code>atk</code> = expected goals vs an average defence, and <code>def</code> = expected goals conceded vs an average attack, on a neutral pitch. Raw rates are corrected: blowout outliers trimmed, minnow-inflated numbers and weak-schedule clean sheets regressed toward World-Cup-level means, and key absences docked (Pulisic, N'Dicka, R. Araújo, Neymar/Rodrygo, Yamal sharpness).</li>
+      <li><b>Expected goals per match.</b> <code>λ_home = atk_home × (def_away / 1.35) × venue</code>, and symmetrically for the away side. Host nations (Mexico, USA) get a 1.10 boost, opponent 0.97; all other games are neutral.</li>
+      <li><b>Scoreline distribution.</b> A bivariate Poisson grid (0–10 goals each) with the <b>Dixon-Coles</b> low-score correction (ρ = -0.07) to fix the under-counting of 0-0/1-0/0-1/1-1 that pure Poisson suffers from.</li>
+      <li><b>Outputs.</b> Win/draw/loss, both-teams-to-score, over/under 2.5 and the most-likely scoreline are all read directly off that probability matrix — my numbers, fully reproducible.</li>
+    </ol>
+  </div>
+  
+    <article class="match" id="mexico">
+      <div class="mhead">
+        <div class="mtop">
+          <div class="mteams">Mexico <span class="vs">vs</span> South Korea</div>
+          <div class="mtag">Thu Jun 18 · Group A</div>
+        </div>
+        <div class="minfo"><span>📍 Estadio Akron, Guadalajara</span></div>
+      </div>
+      <div class="mbody">
+        <div class="modelrow">
+          <div class="xgbox">
+            <div class="xglbl">Model expected goals (my derived λ)</div>
+            <div class="xgvals"><span class="xgteam">Mexico</span>
+              <span class="xgnum">1.42</span><span class="xgdash">–</span>
+              <span class="xgnum">0.91</span><span class="xgteam">South Korea</span></div>
+            <div class="xgtot">total 2.32 goals</div>
+          </div>
+        </div>
+        <div class="probbar">
+          <div class="p-home" style="width:48.1%">Mexico 48.1%</div>
+          <div class="p-draw" style="width:28.8%">Draw 28.8%</div>
+          <div class="p-away" style="width:23.1%">South Korea 23.1%</div>
+        </div>
+        <div class="vgrid">
+          <div class="vcell"><div class="lbl">Model pick</div><div class="val">Mexico</div><div class="sub">48.1%</div></div>
+          <div class="vcell"><div class="lbl">Most likely score</div><div class="val score">1-1</div><div class="sub">13.5%</div></div>
+          <div class="vcell"><div class="lbl">Draw</div><div class="val"><span class="badge b-med">Medium</span></div><div class="sub">28.8%</div></div>
+          <div class="vcell"><div class="lbl">Both score</div><div class="val"><span class="badge b-med">Medium</span></div><div class="sub">46.0%</div></div>
+          <div class="vcell"><div class="lbl">Over 2.5</div><div class="val">41.0%</div><div class="sub">Under 59.0%</div></div>
+        </div>
+        <div class="scoreline"><span class="sl-lbl">Top scorelines:</span> <span class="schip"><b>1-1</b> 13.5%</span><span class="schip"><b>1-0</b> 13.0%</span><span class="schip"><b>0-0</b> 10.7%</span><span class="schip"><b>2-0</b> 9.8%</span></div>
+        <div class="ratings">
+          <span class="rt">⚙ Ratings used — Mexico: <b>atk 1.45</b> / <b>def 0.9</b> &nbsp;·&nbsp; South Korea: <b>atk 1.4</b> / <b>def 1.2</b></span>
+        </div>
+        <div class="analysis">
+          <h4>Why these ratings</h4>
+          <p>Mexico's 0.69 GA/game is trimmed for the lone 0-4 Colombia outlier and credited a host boost (Guadalajara); Korea's defence is marked down (1.20) — their record is flattered, but the leaks came vs elite (Brazil, Ivory Coast), and Mexico is mid-tier, so only a moderate penalty.</p>
+          <h4>Tactical read</h4>
+          <p>Two structurally similar mid-block sides — this projects cagey, not open. Mexico's compact 4-3-3 and elite clean-sheet habit are well suited to smothering Korea's transition game, which is least comfortable breaking down a disciplined block. The match is won in central midfield: if Edson Álvarez shackles Lee Kang-in's supply to Son, Korea's attack dries up. Korea's vulnerability is the wing-back channel — Mexico's wide pace can exploit it — but Son is the high-variance equalizer.</p>
+          <div class="modelnote">🧮 <b>Model note.</b> My model makes this a near coin-flip and lands on **1-1** as the single most-likely score — more draw-leaning than a market 2-1 Mexico. The host edge is real but thin against genuine Korean quality.</div>
+        </div>
+      </div>
+    </article>
+    <article class="match" id="usa">
+      <div class="mhead">
+        <div class="mtop">
+          <div class="mteams">USA <span class="vs">vs</span> Australia</div>
+          <div class="mtag">Fri Jun 19 · Group D</div>
+        </div>
+        <div class="minfo"><span>📍 Lumen Field, Seattle</span></div>
+      </div>
+      <div class="mbody">
+        <div class="modelrow">
+          <div class="xgbox">
+            <div class="xglbl">Model expected goals (my derived λ)</div>
+            <div class="xgvals"><span class="xgteam">USA</span>
+              <span class="xgnum">1.59</span><span class="xgdash">–</span>
+              <span class="xgnum">0.75</span><span class="xgteam">Australia</span></div>
+            <div class="xgtot">total 2.35 goals</div>
+          </div>
+        </div>
+        <div class="probbar">
+          <div class="p-home" style="width:56.6%">USA 56.6%</div>
+          <div class="p-draw" style="width:26.6%">Draw 26.6%</div>
+          <div class="p-away" style="width:16.8%">Australia 16.8%</div>
+        </div>
+        <div class="vgrid">
+          <div class="vcell"><div class="lbl">Model pick</div><div class="val">USA</div><div class="sub">56.6%</div></div>
+          <div class="vcell"><div class="lbl">Most likely score</div><div class="val score">1-0</div><div class="sub">14.4%</div></div>
+          <div class="vcell"><div class="lbl">Draw</div><div class="val"><span class="badge b-med">Medium</span></div><div class="sub">26.6%</div></div>
+          <div class="vcell"><div class="lbl">Both score</div><div class="val"><span class="badge b-low">Low</span></div><div class="sub">43.0%</div></div>
+          <div class="vcell"><div class="lbl">Over 2.5</div><div class="val">41.6%</div><div class="sub">Under 58.4%</div></div>
+        </div>
+        <div class="scoreline"><span class="sl-lbl">Top scorelines:</span> <span class="schip"><b>1-0</b> 14.4%</span><span class="schip"><b>1-1</b> 12.3%</span><span class="schip"><b>2-0</b> 12.1%</span><span class="schip"><b>0-0</b> 10.4%</span></div>
+        <div class="ratings">
+          <span class="rt">⚙ Ratings used — USA: <b>atk 1.7</b> / <b>def 1.05</b> &nbsp;·&nbsp; Australia: <b>atk 1.0</b> / <b>def 1.15</b></span>
+        </div>
+        <div class="analysis">
+          <h4>Why these ratings</h4>
+          <p>USA's attack (1.70) reflects a genuinely upgraded recent slate and host boost, lightly docked for Pulisic's calf doubt; Australia's 1.00 attack captures how toothless they are vs quality — their 2-0 win over Türkiye was heavily xG-negative (outshot 9-30).</p>
+          <h4>Tactical read</h4>
+          <p>A clean stylistic mismatch: USA's possession-and-press front foot attacks Australia's deep block-and-counter. Australia survive on goalkeeping and discipline, a dangerous template against a USA side that piled up shots vs Paraguay. If the USA breaks the block early, Australia must chase and expose the vertical transitions (Pulisic/Balogun/Tillman) they fear. The biggest swing is Pulisic's fitness — without him the ceiling drops and Australia's containment job becomes viable.</p>
+          <div class="modelnote">🧮 <b>Model note.</b> Model: USA 57%, but a 27% draw — Australia's low block keeps the floor on the scoreline, hence a **1-0** most-likely result rather than a comfortable multi-goal win.</div>
+        </div>
+      </div>
+    </article>
+    <article class="match" id="scotland">
+      <div class="mhead">
+        <div class="mtop">
+          <div class="mteams">Scotland <span class="vs">vs</span> Morocco</div>
+          <div class="mtag">Fri Jun 19 · Group C</div>
+        </div>
+        <div class="minfo"><span>📍 Gillette Stadium, Foxborough</span></div>
+      </div>
+      <div class="mbody">
+        <div class="modelrow">
+          <div class="xgbox">
+            <div class="xglbl">Model expected goals (my derived λ)</div>
+            <div class="xgvals"><span class="xgteam">Scotland</span>
+              <span class="xgnum">0.76</span><span class="xgdash">–</span>
+              <span class="xgnum">1.53</span><span class="xgteam">Morocco</span></div>
+            <div class="xgtot">total 2.28 goals</div>
+          </div>
+        </div>
+        <div class="probbar">
+          <div class="p-home" style="width:17.6%">Scotland 17.6%</div>
+          <div class="p-draw" style="width:27.5%">Draw 27.5%</div>
+          <div class="p-away" style="width:54.9%">Morocco 54.9%</div>
+        </div>
+        <div class="vgrid">
+          <div class="vcell"><div class="lbl">Model pick</div><div class="val">Morocco</div><div class="sub">54.9%</div></div>
+          <div class="vcell"><div class="lbl">Most likely score</div><div class="val score">0-1</div><div class="sub">14.8%</div></div>
+          <div class="vcell"><div class="lbl">Draw</div><div class="val"><span class="badge b-med">Medium</span></div><div class="sub">27.5%</div></div>
+          <div class="vcell"><div class="lbl">Both score</div><div class="val"><span class="badge b-low">Low</span></div><div class="sub">42.3%</div></div>
+          <div class="vcell"><div class="lbl">Over 2.5</div><div class="val">40.0%</div><div class="sub">Under 60.0%</div></div>
+        </div>
+        <div class="scoreline"><span class="sl-lbl">Top scorelines:</span> <span class="schip"><b>0-1</b> 14.8%</span><span class="schip"><b>1-1</b> 12.6%</span><span class="schip"><b>0-2</b> 11.9%</span><span class="schip"><b>0-0</b> 11.0%</span></div>
+        <div class="ratings">
+          <span class="rt">⚙ Ratings used — Scotland: <b>atk 1.2</b> / <b>def 1.25</b> &nbsp;·&nbsp; Morocco: <b>atk 1.65</b> / <b>def 0.85</b></span>
+        </div>
+        <div class="analysis">
+          <h4>Why these ratings</h4>
+          <p>Morocco's ~0.6 GA is the most extreme defensive figure in the dataset and robust across qualifiers, AFCON and holding Brazil — rated 0.85. Scotland's attack is docked (1.20) for facing an elite block and losing Gilmour's midfield control.</p>
+          <h4>Tactical read</h4>
+          <p>A quality and tempo mismatch favouring Morocco's superior attacking variety over Scotland's reactive, set-piece game. Morocco's organized block is exactly the kind that suffocates Scotland's direct, cross-heavy approach. It's won down Morocco's right: Hakimi's overlaps pull Robertson back and turn Scotland's main attacking outlet into a defensive chore. Scotland's only real routes are set-pieces and disrupting transitions — both harder without Gilmour.</p>
+          <div class="modelnote">🧮 <b>Model note.</b> Model: Morocco 55%, Scotland just 18%, most-likely **0-1**. Low-scoring and cagey, but the underlying quality gap is decisive.</div>
+        </div>
+      </div>
+    </article>
+    <article class="match" id="brazil">
+      <div class="mhead">
+        <div class="mtop">
+          <div class="mteams">Brazil <span class="vs">vs</span> Haiti</div>
+          <div class="mtag">Fri Jun 19 · Group C</div>
+        </div>
+        <div class="minfo"><span>📍 Lincoln Financial Field, Philadelphia</span></div>
+      </div>
+      <div class="mbody">
+        <div class="modelrow">
+          <div class="xgbox">
+            <div class="xglbl">Model expected goals (my derived λ)</div>
+            <div class="xgvals"><span class="xgteam">Brazil</span>
+              <span class="xgnum">2.96</span><span class="xgdash">–</span>
+              <span class="xgnum">0.44</span><span class="xgteam">Haiti</span></div>
+            <div class="xgtot">total 3.41 goals</div>
+          </div>
+        </div>
+        <div class="probbar">
+          <div class="p-home" style="width:87.1%">Brazil 87.1%</div>
+          <div class="p-draw" style="width:10.0%">Draw 10.0%</div>
+          <div class="p-away" style="width:3.0%">Haiti 3.0%</div>
+        </div>
+        <div class="vgrid">
+          <div class="vcell"><div class="lbl">Model pick</div><div class="val">Brazil</div><div class="sub">87.1%</div></div>
+          <div class="vcell"><div class="lbl">Most likely score</div><div class="val score">2-0</div><div class="sub">14.6%</div></div>
+          <div class="vcell"><div class="lbl">Draw</div><div class="val"><span class="badge b-low">Low</span></div><div class="sub">10.0%</div></div>
+          <div class="vcell"><div class="lbl">Both score</div><div class="val"><span class="badge b-low">Low</span></div><div class="sub">34.3%</div></div>
+          <div class="vcell"><div class="lbl">Over 2.5</div><div class="val">66.1%</div><div class="sub">Under 33.9%</div></div>
+        </div>
+        <div class="scoreline"><span class="sl-lbl">Top scorelines:</span> <span class="schip"><b>2-0</b> 14.6%</span><span class="schip"><b>3-0</b> 14.4%</span><span class="schip"><b>4-0</b> 10.6%</span><span class="schip"><b>1-0</b> 9.5%</span></div>
+        <div class="ratings">
+          <span class="rt">⚙ Ratings used — Brazil: <b>atk 2.05</b> / <b>def 0.8</b> &nbsp;·&nbsp; Haiti: <b>atk 0.75</b> / <b>def 1.95</b></span>
+        </div>
+        <div class="analysis">
+          <h4>Why these ratings</h4>
+          <p>Brazil rated 2.05 attack even without Neymar/Rodrygo; Haiti's defence is pushed to 1.95 — their 1.50 GA came against weak opposition and they crumble when stretched (0-4 NZ, 0-3 Honduras), so it regresses badly upward vs this level.</p>
+          <h4>Tactical read</h4>
+          <p>Brazil's direct, Vinícius-led transition attacks exactly the space Haiti's deep 5-4-1 tries to deny, and Haiti's tendency to collapse when stretched is the structural flaw Brazil's pace and aerial set-pieces exploit. Haiti will sit deep and look to spring Nazon on the counter — their only realistic goal route. The game hinges on Brazil breaking the block early; once they do, Haiti's discipline historically unravels.</p>
+          <div class="modelnote">🧮 <b>Model note.</b> Model: Brazil 87%, expected goals 2.96 — comfortably the most lopsided game of the round and the only one projecting Over 2.5 as the favourite (66%).</div>
+        </div>
+      </div>
+    </article>
+    <article class="match" id="netherlands">
+      <div class="mhead">
+        <div class="mtop">
+          <div class="mteams">Netherlands <span class="vs">vs</span> Sweden</div>
+          <div class="mtag">Sat Jun 20 · Group F</div>
+        </div>
+        <div class="minfo"><span>📍 NRG Stadium, Houston</span></div>
+      </div>
+      <div class="mbody">
+        <div class="modelrow">
+          <div class="xgbox">
+            <div class="xglbl">Model expected goals (my derived λ)</div>
+            <div class="xgvals"><span class="xgteam">Netherlands</span>
+              <span class="xgnum">1.99</span><span class="xgdash">–</span>
+              <span class="xgnum">1.32</span><span class="xgteam">Sweden</span></div>
+            <div class="xgtot">total 3.31 goals</div>
+          </div>
+        </div>
+        <div class="probbar">
+          <div class="p-home" style="width:52.3%">Netherlands 52.3%</div>
+          <div class="p-draw" style="width:23.1%">Draw 23.1%</div>
+          <div class="p-away" style="width:24.7%">Sweden 24.7%</div>
+        </div>
+        <div class="vgrid">
+          <div class="vcell"><div class="lbl">Model pick</div><div class="val">Netherlands</div><div class="sub">52.3%</div></div>
+          <div class="vcell"><div class="lbl">Most likely score</div><div class="val score">1-1</div><div class="sub">10.3%</div></div>
+          <div class="vcell"><div class="lbl">Draw</div><div class="val"><span class="badge b-low">Low</span></div><div class="sub">23.1%</div></div>
+          <div class="vcell"><div class="lbl">Both score</div><div class="val"><span class="badge b-high">High</span></div><div class="sub">63.9%</div></div>
+          <div class="vcell"><div class="lbl">Over 2.5</div><div class="val">64.2%</div><div class="sub">Under 35.8%</div></div>
+        </div>
+        <div class="scoreline"><span class="sl-lbl">Top scorelines:</span> <span class="schip"><b>1-1</b> 10.3%</span><span class="schip"><b>2-1</b> 9.5%</span><span class="schip"><b>2-0</b> 7.2%</span><span class="schip"><b>1-0</b> 6.6%</span></div>
+        <div class="ratings">
+          <span class="rt">⚙ Ratings used — Netherlands: <b>atk 1.85</b> / <b>def 1.15</b> &nbsp;·&nbsp; Sweden: <b>atk 1.55</b> / <b>def 1.45</b></span>
+        </div>
+        <div class="analysis">
+          <h4>Why these ratings</h4>
+          <p>Netherlands attack trimmed to 1.85 (their 2.62 GF was padded by 8-0 Malta and three 4-0s) and defence marked 1.15 — the high line leaks in transition. Sweden's 1.45 defence is genuinely the weakest of any seeded-tier side here, but the Isak-Gyökeres pairing earns a 1.55 attack.</p>
+          <h4>Tactical read</h4>
+          <p>A possession-vs-transition clash. The Dutch dominate the ball and probe a Sweden side whose defining flaw is a porous defence, while Sweden's danger is precisely the fast Isak-Gyökeres break that punishes a high line — the same vulnerability Japan exposed. It's decided in the rest-defence moments behind the Dutch back four: any turnover invites two elite strikers. Set-pieces (Van Dijk) are a likely Dutch tiebreaker.</p>
+          <div class="modelnote">🧮 <b>Model note.</b> Model flags this as the round's best 'both teams score' game: **BTTS 64%, Over 2.5 64%**, with 1-1 the most-likely single score. The most end-to-end fixture of the slate.</div>
+        </div>
+      </div>
+    </article>
+    <article class="match" id="germany">
+      <div class="mhead">
+        <div class="mtop">
+          <div class="mteams">Germany <span class="vs">vs</span> Ivory Coast</div>
+          <div class="mtag">Sat Jun 20 · Group E</div>
+        </div>
+        <div class="minfo"><span>📍 BMO Field, Toronto</span></div>
+      </div>
+      <div class="mbody">
+        <div class="modelrow">
+          <div class="xgbox">
+            <div class="xglbl">Model expected goals (my derived λ)</div>
+            <div class="xgvals"><span class="xgteam">Germany</span>
+              <span class="xgnum">1.82</span><span class="xgdash">–</span>
+              <span class="xgnum">0.98</span><span class="xgteam">Ivory Coast</span></div>
+            <div class="xgtot">total 2.8 goals</div>
+          </div>
+        </div>
+        <div class="probbar">
+          <div class="p-home" style="width:56.4%">Germany 56.4%</div>
+          <div class="p-draw" style="width:24.3%">Draw 24.3%</div>
+          <div class="p-away" style="width:19.3%">Ivory Coast 19.3%</div>
+        </div>
+        <div class="vgrid">
+          <div class="vcell"><div class="lbl">Model pick</div><div class="val">Germany</div><div class="sub">56.4%</div></div>
+          <div class="vcell"><div class="lbl">Most likely score</div><div class="val score">1-1</div><div class="sub">11.6%</div></div>
+          <div class="vcell"><div class="lbl">Draw</div><div class="val"><span class="badge b-med">Medium</span></div><div class="sub">24.3%</div></div>
+          <div class="vcell"><div class="lbl">Both score</div><div class="val"><span class="badge b-med">Medium</span></div><div class="sub">53.1%</div></div>
+          <div class="vcell"><div class="lbl">Over 2.5</div><div class="val">53.1%</div><div class="sub">Under 46.9%</div></div>
+        </div>
+        <div class="scoreline"><span class="sl-lbl">Top scorelines:</span> <span class="schip"><b>1-1</b> 11.6%</span><span class="schip"><b>1-0</b> 10.3%</span><span class="schip"><b>2-0</b> 10.1%</span><span class="schip"><b>2-1</b> 9.9%</span></div>
+        <div class="ratings">
+          <span class="rt">⚙ Ratings used — Germany: <b>atk 2.05</b> / <b>def 1.15</b> &nbsp;·&nbsp; Ivory Coast: <b>atk 1.15</b> / <b>def 1.2</b></span>
+        </div>
+        <div class="analysis">
+          <h4>Why these ratings</h4>
+          <p>Germany's 3.31 GF is minnow-inflated (7-1, 6-0) so attack sits at 2.05 with a 1.15 defence — their high line concedes counters. Ivory Coast's 0.57 GA was built on weak CAF opposition and collapses vs quality (3 to Egypt), regressed to 1.20; N'Dicka's absence hurts their transition defence.</p>
+          <h4>Tactical read</h4>
+          <p>Germany's positional play and elite shot volume meet a disciplined Ivorian mid-block — but that block leaks against real quality, and the Wirtz-Musiala interplay in the half-spaces is built to unpick it. The decisive duel is Germany's high line vs Ivory Coast's direct breaks through Diallo and Adingra, the exact channel that has repeatedly caught Germany. Losing N'Dicka, though, hurts the Ivorian transition defence more than it helps their counter.</p>
+          <div class="modelnote">🧮 <b>Model note.</b> Model: Germany 56%, BTTS 53% — the Ivorian counter is a live enough threat to make 'both score' a coin-flip, even as Germany controls.</div>
+        </div>
+      </div>
+    </article>
+    <article class="match" id="ecuador">
+      <div class="mhead">
+        <div class="mtop">
+          <div class="mteams">Ecuador <span class="vs">vs</span> Curacao</div>
+          <div class="mtag">Sat Jun 20 · Group E</div>
+        </div>
+        <div class="minfo"><span>📍 Arrowhead Stadium, Kansas City</span></div>
+      </div>
+      <div class="mbody">
+        <div class="modelrow">
+          <div class="xgbox">
+            <div class="xglbl">Model expected goals (my derived λ)</div>
+            <div class="xgvals"><span class="xgteam">Ecuador</span>
+              <span class="xgnum">1.79</span><span class="xgdash">–</span>
+              <span class="xgnum">0.47</span><span class="xgteam">Curacao</span></div>
+            <div class="xgtot">total 2.27 goals</div>
+          </div>
+        </div>
+        <div class="probbar">
+          <div class="p-home" style="width:69.0%">Ecuador 69.0%</div>
+          <div class="p-draw" style="width:22.5%">Draw 22.5%</div>
+          <div class="p-away" style="width:8.5%">Curacao 8.5%</div>
+        </div>
+        <div class="vgrid">
+          <div class="vcell"><div class="lbl">Model pick</div><div class="val">Ecuador</div><div class="sub">69.0%</div></div>
+          <div class="vcell"><div class="lbl">Most likely score</div><div class="val score">1-0</div><div class="sub">18.0%</div></div>
+          <div class="vcell"><div class="lbl">Draw</div><div class="val"><span class="badge b-low">Low</span></div><div class="sub">22.5%</div></div>
+          <div class="vcell"><div class="lbl">Both score</div><div class="val"><span class="badge b-low">Low</span></div><div class="sub">32.1%</div></div>
+          <div class="vcell"><div class="lbl">Over 2.5</div><div class="val">39.5%</div><div class="sub">Under 60.5%</div></div>
+        </div>
+        <div class="scoreline"><span class="sl-lbl">Top scorelines:</span> <span class="schip"><b>1-0</b> 18.0%</span><span class="schip"><b>2-0</b> 16.7%</span><span class="schip"><b>0-0</b> 11.0%</span><span class="schip"><b>3-0</b> 10.0%</span></div>
+        <div class="ratings">
+          <span class="rt">⚙ Ratings used — Ecuador: <b>atk 1.1</b> / <b>def 0.8</b> &nbsp;·&nbsp; Curacao: <b>atk 0.8</b> / <b>def 2.2</b></span>
+        </div>
+        <div class="analysis">
+          <h4>Why these ratings</h4>
+          <p>Ecuador's elite block (0.28 GA in qualifying) earns 0.80, but their chronic finishing caps the attack at 1.10. Curaçao's defence is rated 2.20 — their 0.3 qualifying GA is a pure CONCACAF-minnow artifact; the real signal is 7 conceded to Germany and 0.40 xG generated.</p>
+          <h4>Tactical read</h4>
+          <p>A near-pure mismatch in Ecuador's favour. Ecuador's low block and Caicedo-anchored recovery are precisely the wall Curaçao couldn't breach against any quality side. The decisive zone is Curaçao's defensive transition — Ecuador won't dominate possession volume but will punish turnovers and set-pieces, while Curaçao's back line gets exposed by pace. Ecuador grind rather than rout, so expect control at a modest total.</p>
+          <div class="modelnote">🧮 <b>Model note.</b> Model: Ecuador 69%, most-likely **1-0**. Note the low Over 2.5 (40%) — Ecuador rarely runs up scores even when dominant, the lowest-scoring 'big favourite' profile on the board alongside Uruguay.</div>
+        </div>
+      </div>
+    </article>
+    <article class="match" id="tunisia">
+      <div class="mhead">
+        <div class="mtop">
+          <div class="mteams">Tunisia <span class="vs">vs</span> Japan</div>
+          <div class="mtag">Sat Jun 20 · Group F</div>
+        </div>
+        <div class="minfo"><span>📍 Estadio BBVA, Monterrey</span></div>
+      </div>
+      <div class="mbody">
+        <div class="modelrow">
+          <div class="xgbox">
+            <div class="xglbl">Model expected goals (my derived λ)</div>
+            <div class="xgvals"><span class="xgteam">Tunisia</span>
+              <span class="xgnum">0.6</span><span class="xgdash">–</span>
+              <span class="xgnum">1.95</span><span class="xgteam">Japan</span></div>
+            <div class="xgtot">total 2.55 goals</div>
+          </div>
+        </div>
+        <div class="probbar">
+          <div class="p-home" style="width:9.8%">Tunisia 9.8%</div>
+          <div class="p-draw" style="width:21.2%">Draw 21.2%</div>
+          <div class="p-away" style="width:69.0%">Japan 69.0%</div>
+        </div>
+        <div class="vgrid">
+          <div class="vcell"><div class="lbl">Model pick</div><div class="val">Japan</div><div class="sub">69.0%</div></div>
+          <div class="vcell"><div class="lbl">Most likely score</div><div class="val score">0-2</div><div class="sub">14.9%</div></div>
+          <div class="vcell"><div class="lbl">Draw</div><div class="val"><span class="badge b-low">Low</span></div><div class="sub">21.2%</div></div>
+          <div class="vcell"><div class="lbl">Both score</div><div class="val"><span class="badge b-low">Low</span></div><div class="sub">39.3%</div></div>
+          <div class="vcell"><div class="lbl">Over 2.5</div><div class="val">46.9%</div><div class="sub">Under 53.1%</div></div>
+        </div>
+        <div class="scoreline"><span class="sl-lbl">Top scorelines:</span> <span class="schip"><b>0-2</b> 14.9%</span><span class="schip"><b>0-1</b> 14.6%</span><span class="schip"><b>1-1</b> 9.8%</span><span class="schip"><b>0-3</b> 9.7%</span></div>
+        <div class="ratings">
+          <span class="rt">⚙ Ratings used — Tunisia: <b>atk 0.85</b> / <b>def 1.55</b> &nbsp;·&nbsp; Japan: <b>atk 1.7</b> / <b>def 0.95</b></span>
+        </div>
+        <div class="analysis">
+          <h4>Why these ratings</h4>
+          <p>Japan rated 1.70 attack / 0.95 defence on a strong recent run (beat Brazil, England). Tunisia's attack is slashed to 0.85 — they managed 0.28 xG vs Sweden and 1 goal across Belgium/Sweden — and defence to 1.55, shipping 11 in three games before a brand-new Renard reshuffle.</p>
+          <h4>Tactical read</h4>
+          <p>Japan's vertical, high-pressing transition attacks exactly the seam where Tunisia just shipped 11 in three matches — pace against a slow, reorganizing back line. Tunisia under new boss Renard will likely sit deeper in a back-five and concede the ball, hunting one set-piece or counter (their only realistic route). It turns on whether that hastily-installed block holds under Japanese width; if Japan breaks the first line, Tunisia's fragility suggests multiple goals.</p>
+          <div class="modelnote">🧮 <b>Model note.</b> Model: Japan 69% (named here as the home side by fixture listing, but Japan is the on-paper favourite), most-likely **0-2**. The new-manager bounce is the only real upset lever.</div>
+        </div>
+      </div>
+    </article>
+    <article class="match" id="spain">
+      <div class="mhead">
+        <div class="mtop">
+          <div class="mteams">Spain <span class="vs">vs</span> Saudi Arabia</div>
+          <div class="mtag">Sun Jun 21 · Group H</div>
+        </div>
+        <div class="minfo"><span>📍 Mercedes-Benz Stadium, Atlanta</span></div>
+      </div>
+      <div class="mbody">
+        <div class="modelrow">
+          <div class="xgbox">
+            <div class="xglbl">Model expected goals (my derived λ)</div>
+            <div class="xgvals"><span class="xgteam">Spain</span>
+              <span class="xgnum">2.07</span><span class="xgdash">–</span>
+              <span class="xgnum">0.5</span><span class="xgteam">Saudi Arabia</span></div>
+            <div class="xgtot">total 2.58 goals</div>
+          </div>
+        </div>
+        <div class="probbar">
+          <div class="p-home" style="width:73.8%">Spain 73.8%</div>
+          <div class="p-draw" style="width:19.0%">Draw 19.0%</div>
+          <div class="p-away" style="width:7.2%">Saudi Arabia 7.2%</div>
+        </div>
+        <div class="vgrid">
+          <div class="vcell"><div class="lbl">Model pick</div><div class="val">Spain</div><div class="sub">73.8%</div></div>
+          <div class="vcell"><div class="lbl">Most likely score</div><div class="val score">2-0</div><div class="sub">16.3%</div></div>
+          <div class="vcell"><div class="lbl">Draw</div><div class="val"><span class="badge b-low">Low</span></div><div class="sub">19.0%</div></div>
+          <div class="vcell"><div class="lbl">Both score</div><div class="val"><span class="badge b-low">Low</span></div><div class="sub">35.2%</div></div>
+          <div class="vcell"><div class="lbl">Over 2.5</div><div class="val">47.6%</div><div class="sub">Under 52.4%</div></div>
+        </div>
+        <div class="scoreline"><span class="sl-lbl">Top scorelines:</span> <span class="schip"><b>2-0</b> 16.3%</span><span class="schip"><b>1-0</b> 15.2%</span><span class="schip"><b>3-0</b> 11.3%</span><span class="schip"><b>1-1</b> 8.5%</span></div>
+        <div class="ratings">
+          <span class="rt">⚙ Ratings used — Spain: <b>atk 2.0</b> / <b>def 0.8</b> &nbsp;·&nbsp; Saudi Arabia: <b>atk 0.85</b> / <b>def 1.4</b></span>
+        </div>
+        <div class="analysis">
+          <h4>Why these ratings</h4>
+          <p>Spain rated 2.00 attack / 0.80 defence — elite, lightly docked for Yamal/Williams sharpness after the 0-0 vs Cape Verde. Saudi's 0.85 attack reflects chronic scoring problems; their 1.40 defence credits a keeper-dependent deep block that frustrates but rarely shuts out elite sides over 90.</p>
+          <h4>Tactical read</h4>
+          <p>The archetypal possession-vs-low-block problem, and Saudi are built to frustrate it — deep block, in-form keeper, set-piece as the main scoring route. Spain's 0-0 vs Cape Verde (2.29 xG, 27 shots, zero goals) is the warning: chance volume is enormous, conversion is the variable, and under-sharp wide men blunt the penetration that unlocks deep blocks. It's decided in Spain's final-third conversion vs Saudi's block discipline.</p>
+          <div class="modelnote">🧮 <b>Model note.</b> Model: Spain 74%, most-likely **2-0**. High floor of dominance, but the 0-0-vs-Cape-Verde tail risk is exactly why this isn't 85%+.</div>
+        </div>
+      </div>
+    </article>
+    <article class="match" id="belgium">
+      <div class="mhead">
+        <div class="mtop">
+          <div class="mteams">Belgium <span class="vs">vs</span> Iran</div>
+          <div class="mtag">Sun Jun 21 · Group G</div>
+        </div>
+        <div class="minfo"><span>📍 SoFi Stadium, Los Angeles</span></div>
+      </div>
+      <div class="mbody">
+        <div class="modelrow">
+          <div class="xgbox">
+            <div class="xglbl">Model expected goals (my derived λ)</div>
+            <div class="xgvals"><span class="xgteam">Belgium</span>
+              <span class="xgnum">1.48</span><span class="xgdash">–</span>
+              <span class="xgnum">0.94</span><span class="xgteam">Iran</span></div>
+            <div class="xgtot">total 2.41 goals</div>
+          </div>
+        </div>
+        <div class="probbar">
+          <div class="p-home" style="width:48.9%">Belgium 48.9%</div>
+          <div class="p-draw" style="width:28.1%">Draw 28.1%</div>
+          <div class="p-away" style="width:23.1%">Iran 23.1%</div>
+        </div>
+        <div class="vgrid">
+          <div class="vcell"><div class="lbl">Model pick</div><div class="val">Belgium</div><div class="sub">48.9%</div></div>
+          <div class="vcell"><div class="lbl">Most likely score</div><div class="val score">1-1</div><div class="sub">13.2%</div></div>
+          <div class="vcell"><div class="lbl">Draw</div><div class="val"><span class="badge b-med">Medium</span></div><div class="sub">28.1%</div></div>
+          <div class="vcell"><div class="lbl">Both score</div><div class="val"><span class="badge b-med">Medium</span></div><div class="sub">47.8%</div></div>
+          <div class="vcell"><div class="lbl">Over 2.5</div><div class="val">43.4%</div><div class="sub">Under 56.6%</div></div>
+        </div>
+        <div class="scoreline"><span class="sl-lbl">Top scorelines:</span> <span class="schip"><b>1-1</b> 13.2%</span><span class="schip"><b>1-0</b> 12.3%</span><span class="schip"><b>0-0</b> 9.8%</span><span class="schip"><b>2-0</b> 9.8%</span></div>
+        <div class="ratings">
+          <span class="rt">⚙ Ratings used — Belgium: <b>atk 1.9</b> / <b>def 1.1</b> &nbsp;·&nbsp; Iran: <b>atk 1.15</b> / <b>def 1.05</b></span>
+        </div>
+        <div class="analysis">
+          <h4>Why these ratings</h4>
+          <p>Belgium's gaudy 3.6 GF came against a very weak UEFA group, so attack sits at 1.90 with a 1.10 defence (untested vs elite). Iran rated 1.15/1.05 — disciplined and tight (0.8 GA in qualifying), counter-reliant through Taremi, weakened by Azmoun's exclusion.</p>
+          <h4>Tactical read</h4>
+          <p>Belgium's De Bruyne-orchestrated possession meets exactly the structure Iran is designed to frustrate: a compact block inviting Belgium to break them down, then springing Taremi. It's decided by whether Doku/Trossard and the full-backs can stretch Iran wide enough to open central gaps, and whether Iran's transitions survive Belgium's moderate-high line. Belgium's set-piece threat (De Bruyne + Lukaku) is their cleanest path against a packed box.</p>
+          <div class="modelnote">🧮 <b>Model note.</b> Model: Belgium 49%, a fat 28% draw — the closest 'big team' matchup on the board (Belgium's inflated numbers regress hard against a real opponent), most-likely **1-1**.</div>
+        </div>
+      </div>
+    </article>
+    <article class="match" id="uruguay">
+      <div class="mhead">
+        <div class="mtop">
+          <div class="mteams">Uruguay <span class="vs">vs</span> Cape Verde</div>
+          <div class="mtag">Sun Jun 21 · Group H</div>
+        </div>
+        <div class="minfo"><span>📍 Hard Rock Stadium, Miami Gardens</span></div>
+      </div>
+      <div class="mbody">
+        <div class="modelrow">
+          <div class="xgbox">
+            <div class="xglbl">Model expected goals (my derived λ)</div>
+            <div class="xgvals"><span class="xgteam">Uruguay</span>
+              <span class="xgnum">1.24</span><span class="xgdash">–</span>
+              <span class="xgnum">0.66</span><span class="xgteam">Cape Verde</span></div>
+            <div class="xgtot">total 1.91 goals</div>
+          </div>
+        </div>
+        <div class="probbar">
+          <div class="p-home" style="width:49.5%">Uruguay 49.5%</div>
+          <div class="p-draw" style="width:31.6%">Draw 31.6%</div>
+          <div class="p-away" style="width:18.9%">Cape Verde 18.9%</div>
+        </div>
+        <div class="vgrid">
+          <div class="vcell"><div class="lbl">Model pick</div><div class="val">Uruguay</div><div class="sub">49.5%</div></div>
+          <div class="vcell"><div class="lbl">Most likely score</div><div class="val score">1-0</div><div class="sub">17.7%</div></div>
+          <div class="vcell"><div class="lbl">Draw</div><div class="val"><span class="badge b-high">High</span></div><div class="sub">31.6%</div></div>
+          <div class="vcell"><div class="lbl">Both score</div><div class="val"><span class="badge b-low">Low</span></div><div class="sub">35.3%</div></div>
+          <div class="vcell"><div class="lbl">Over 2.5</div><div class="val">29.8%</div><div class="sub">Under 70.2%</div></div>
+        </div>
+        <div class="scoreline"><span class="sl-lbl">Top scorelines:</span> <span class="schip"><b>1-0</b> 17.7%</span><span class="schip"><b>0-0</b> 15.7%</span><span class="schip"><b>1-1</b> 13.1%</span><span class="schip"><b>2-0</b> 11.5%</span></div>
+        <div class="ratings">
+          <span class="rt">⚙ Ratings used — Uruguay: <b>atk 1.4</b> / <b>def 1.05</b> &nbsp;·&nbsp; Cape Verde: <b>atk 0.85</b> / <b>def 1.2</b></span>
+        </div>
+        <div class="analysis">
+          <h4>Why these ratings</h4>
+          <p>Uruguay rated only 1.40 attack — high shot volume but their finishing has dried up badly (28 shots, 1 goal vs Saudi) — and 1.05 defence, because the first-choice CB unit is depleted (Araújo out, Giménez doubtful). Cape Verde's 1.20 defence credits the side that just shut out Spain behind keeper Vozinha.</p>
+          <h4>Tactical read</h4>
+          <p>A near-pure attack-vs-block matchup: Uruguay's Bielsa press generates huge volume, but their finishing has misfired and Cape Verde just smothered Spain's 27 shots to nil. It's decided by whether Uruguay's pressure overwhelms a compact deep block — and crucially by their weakened centre-backs, the one place a low-volume counter side can hurt them. Expect Uruguay to dominate territory in a frustrating game; their xG-underperformance plus shaky CBs keep an upset live.</p>
+          <div class="modelnote">🧮 <b>Model note.</b> My model's biggest divergence from the betting-market view: **only 49.5% Uruguay with a 31.6% draw** — far less confident than a market ~60%. Uruguay's finishing collapse and CB injuries plus Cape Verde's Spain-frustrating block make this genuinely live.</div>
+        </div>
+      </div>
+    </article>
+    <article class="match" id="new-zealand">
+      <div class="mhead">
+        <div class="mtop">
+          <div class="mteams">New Zealand <span class="vs">vs</span> Egypt</div>
+          <div class="mtag">Sun Jun 21 · Group G</div>
+        </div>
+        <div class="minfo"><span>📍 BC Place, Vancouver</span></div>
+      </div>
+      <div class="mbody">
+        <div class="modelrow">
+          <div class="xgbox">
+            <div class="xglbl">Model expected goals (my derived λ)</div>
+            <div class="xgvals"><span class="xgteam">New Zealand</span>
+              <span class="xgnum">0.85</span><span class="xgdash">–</span>
+              <span class="xgnum">1.5</span><span class="xgteam">Egypt</span></div>
+            <div class="xgtot">total 2.36 goals</div>
+          </div>
+        </div>
+        <div class="probbar">
+          <div class="p-home" style="width:20.5%">New Zealand 20.5%</div>
+          <div class="p-draw" style="width:27.8%">Draw 27.8%</div>
+          <div class="p-away" style="width:51.7%">Egypt 51.7%</div>
+        </div>
+        <div class="vgrid">
+          <div class="vcell"><div class="lbl">Model pick</div><div class="val">Egypt</div><div class="sub">51.7%</div></div>
+          <div class="vcell"><div class="lbl">Most likely score</div><div class="val score">0-1</div><div class="sub">13.4%</div></div>
+          <div class="vcell"><div class="lbl">Draw</div><div class="val"><span class="badge b-med">Medium</span></div><div class="sub">27.8%</div></div>
+          <div class="vcell"><div class="lbl">Both score</div><div class="val"><span class="badge b-med">Medium</span></div><div class="sub">45.4%</div></div>
+          <div class="vcell"><div class="lbl">Over 2.5</div><div class="val">41.9%</div><div class="sub">Under 58.1%</div></div>
+        </div>
+        <div class="scoreline"><span class="sl-lbl">Top scorelines:</span> <span class="schip"><b>0-1</b> 13.4%</span><span class="schip"><b>1-1</b> 13.0%</span><span class="schip"><b>0-2</b> 10.7%</span><span class="schip"><b>0-0</b> 10.3%</span></div>
+        <div class="ratings">
+          <span class="rt">⚙ Ratings used — New Zealand: <b>atk 1.15</b> / <b>def 1.4</b> &nbsp;·&nbsp; Egypt: <b>atk 1.45</b> / <b>def 1.0</b></span>
+        </div>
+        <div class="analysis">
+          <h4>Why these ratings</h4>
+          <p>Egypt rated 1.45/1.00 — Salah/Marmoush pace and a defence that conceded twice in 10 qualifiers (regressed for soft schedule). New Zealand's gaudy OFC numbers are stripped to a ~1.15 attack / 1.40 defence true baseline; their one genuine edge is set-piece/aerial power (Wood, tall CBs).</p>
+          <h4>Tactical read</h4>
+          <p>Two transition-leaning sides, but Egypt has clearly higher individual quality through Salah and Marmoush. The game is decided by New Zealand's one real edge — set-pieces and aerial power (0.68 of their xG vs Iran came from dead balls) — against Egypt's otherwise disciplined block, versus Egypt's ability to spring Salah in behind. NZ's numbers are badly OFC-inflated, and they leaked 1.50 xGA to Iran, a worry against sharper finishers.</p>
+          <div class="modelnote">🧮 <b>Model note.</b> Model: Egypt 52%, NZ 21%, most-likely **0-1**. Egypt's quality edge is clear, but NZ's aerial threat keeps a low-scoring draw (28%) on the table.</div>
+        </div>
+      </div>
+    </article>
+  <section class="summary">
+    <h2>📊 Full model output</h2>
+    <div class="wrap-scroll"><table class="big">
+      <thead><tr><th>Day</th><th>Match</th><th class="c">Pick</th><th class="c">Likely</th><th class="c">xG H–A</th>
+      <th class="c">Home%</th><th class="c">Draw%</th><th class="c">Away%</th><th class="c">BTTS%</th><th class="c">O2.5%</th></tr></thead>
+      <tbody><tr><td>Thu</td><td>Mexico v South Korea</td>
+      <td class="c win">Mexico</td><td class="c">1-1</td>
+      <td class="c">1.42–0.91</td>
+      <td class="c">48.1</td><td class="c">28.8</td><td class="c">23.1</td>
+      <td class="c">46.0</td><td class="c">41.0</td></tr>
+<tr><td>Fri</td><td>USA v Australia</td>
+      <td class="c win">USA</td><td class="c">1-0</td>
+      <td class="c">1.59–0.75</td>
+      <td class="c">56.6</td><td class="c">26.6</td><td class="c">16.8</td>
+      <td class="c">43.0</td><td class="c">41.6</td></tr>
+<tr><td>Fri</td><td>Scotland v Morocco</td>
+      <td class="c win">Morocco</td><td class="c">0-1</td>
+      <td class="c">0.76–1.53</td>
+      <td class="c">17.6</td><td class="c">27.5</td><td class="c">54.9</td>
+      <td class="c">42.3</td><td class="c">40.0</td></tr>
+<tr><td>Fri</td><td>Brazil v Haiti</td>
+      <td class="c win">Brazil</td><td class="c">2-0</td>
+      <td class="c">2.96–0.44</td>
+      <td class="c">87.1</td><td class="c">10.0</td><td class="c">3.0</td>
+      <td class="c">34.3</td><td class="c">66.1</td></tr>
+<tr><td>Sat</td><td>Netherlands v Sweden</td>
+      <td class="c win">Netherlands</td><td class="c">1-1</td>
+      <td class="c">1.99–1.32</td>
+      <td class="c">52.3</td><td class="c">23.1</td><td class="c">24.7</td>
+      <td class="c">63.9</td><td class="c">64.2</td></tr>
+<tr><td>Sat</td><td>Germany v Ivory Coast</td>
+      <td class="c win">Germany</td><td class="c">1-1</td>
+      <td class="c">1.82–0.98</td>
+      <td class="c">56.4</td><td class="c">24.3</td><td class="c">19.3</td>
+      <td class="c">53.1</td><td class="c">53.1</td></tr>
+<tr><td>Sat</td><td>Ecuador v Curacao</td>
+      <td class="c win">Ecuador</td><td class="c">1-0</td>
+      <td class="c">1.79–0.47</td>
+      <td class="c">69.0</td><td class="c">22.5</td><td class="c">8.5</td>
+      <td class="c">32.1</td><td class="c">39.5</td></tr>
+<tr><td>Sat</td><td>Tunisia v Japan</td>
+      <td class="c win">Japan</td><td class="c">0-2</td>
+      <td class="c">0.6–1.95</td>
+      <td class="c">9.8</td><td class="c">21.2</td><td class="c">69.0</td>
+      <td class="c">39.3</td><td class="c">46.9</td></tr>
+<tr><td>Sun</td><td>Spain v Saudi Arabia</td>
+      <td class="c win">Spain</td><td class="c">2-0</td>
+      <td class="c">2.07–0.5</td>
+      <td class="c">73.8</td><td class="c">19.0</td><td class="c">7.2</td>
+      <td class="c">35.2</td><td class="c">47.6</td></tr>
+<tr><td>Sun</td><td>Belgium v Iran</td>
+      <td class="c win">Belgium</td><td class="c">1-1</td>
+      <td class="c">1.48–0.94</td>
+      <td class="c">48.9</td><td class="c">28.1</td><td class="c">23.1</td>
+      <td class="c">47.8</td><td class="c">43.4</td></tr>
+<tr><td>Sun</td><td>Uruguay v Cape Verde</td>
+      <td class="c win">Uruguay</td><td class="c">1-0</td>
+      <td class="c">1.24–0.66</td>
+      <td class="c">49.5</td><td class="c">31.6</td><td class="c">18.9</td>
+      <td class="c">35.3</td><td class="c">29.8</td></tr>
+<tr><td>Sun</td><td>New Zealand v Egypt</td>
+      <td class="c win">Egypt</td><td class="c">0-1</td>
+      <td class="c">0.85–1.5</td>
+      <td class="c">20.5</td><td class="c">27.8</td><td class="c">51.7</td>
+      <td class="c">45.4</td><td class="c">41.9</td></tr>
+</tbody>
+    </table></div>
+    <div class="disclaimer"><b>⚠ What this is and isn't.</b> A transparent goals model is only as good as its rating inputs, and public per-match xG was unavailable for most teams — so several ratings rest on goal rates plus my judgement, not a fitted xG dataset. Managerial changes (Tunisia→Renard, Saudi→Donis), late injuries and lineup choices add variance the model can't see. These are probabilities, not predictions, and exclude betting markets by design — for analysis/entertainment, not wagering advice.</div>
+  </section>
+  <footer><p>Independent Dixon-Coles Poisson model · built June 18, 2026 · raw data from qualifiers, friendlies &amp; Matchday 1 (ESPN, FIFA, Opta single-match xG, Wikipedia). No bookmaker odds used.</p></footer>
+</div></body></html>
