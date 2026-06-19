@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>World Cup 2026 — Match Analysis & Predictions (Jun 18–21)</title>
+<style>
+  :root{
+    --bg:#0a0e1a; --panel:#121829; --panel2:#1a2236; --line:#28324d;
+    --txt:#e7ecf5; --muted:#9aa7c2; --accent:#00d4a0; --accent2:#3b82f6;
+    --gold:#f4c542; --red:#ff5c6c; --green:#3ddc97; --amber:#f7a83e;
+    --chip:#222c44;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:linear-gradient(160deg,#070b15,#0d1424 60%,#0a0f1d);color:var(--txt);line-height:1.5;
+    padding:0 0 80px}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+  header.hero{padding:54px 20px 40px;text-align:center;
+    background:radial-gradient(1200px 400px at 50% -120px,rgba(0,212,160,.18),transparent),
+    radial-gradient(900px 300px at 80% -60px,rgba(59,130,246,.16),transparent)}
+  .hero .kicker{letter-spacing:3px;text-transform:uppercase;font-size:12px;color:var(--accent);font-weight:700}
+  .hero h1{font-size:clamp(28px,5vw,46px);margin:10px 0 8px;line-height:1.1;
+    background:linear-gradient(90deg,#fff,#9fe9d4);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .hero p{color:var(--muted);max-width:680px;margin:0 auto;font-size:15px}
+  .hero .meta{margin-top:18px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+  .pill{background:var(--chip);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:12.5px;color:var(--muted)}
+  .pill b{color:var(--txt)}
+
+  .toc{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px 24px;margin:30px 0}
+  .toc h2{font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+  .toc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px}
+  .toc a{color:var(--txt);text-decoration:none;font-size:14px;padding:8px 12px;border-radius:9px;display:flex;justify-content:space-between;gap:8px;border:1px solid transparent}
+  .toc a:hover{background:var(--panel2);border-color:var(--line)}
+  .toc a .t{font-size:11px;color:var(--muted)}
+
+  .daygroup{margin-top:46px}
+  .dayhead{display:flex;align-items:center;gap:14px;margin-bottom:6px}
+  .dayhead .dot{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 14px var(--accent)}
+  .dayhead h2{font-size:24px}
+  .daysub{color:var(--muted);font-size:13.5px;margin-bottom:20px;padding-left:24px}
+
+  .match{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:0;margin-bottom:26px;overflow:hidden}
+  .match.headline{border-color:rgba(244,197,66,.5);box-shadow:0 0 0 1px rgba(244,197,66,.15),0 18px 50px -25px rgba(244,197,66,.4)}
+  .mhead{padding:20px 24px;background:linear-gradient(100deg,var(--panel2),var(--panel));border-bottom:1px solid var(--line)}
+  .mtop{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+  .mteams{font-size:21px;font-weight:700}
+  .mteams .vs{color:var(--muted);font-weight:500;margin:0 8px;font-size:16px}
+  .mtag{font-size:11px;padding:4px 10px;border-radius:999px;border:1px solid var(--line);background:var(--chip);color:var(--muted);white-space:nowrap}
+  .mtag.live{color:var(--gold);border-color:rgba(244,197,66,.5)}
+  .minfo{color:var(--muted);font-size:13px;margin-top:8px;display:flex;gap:16px;flex-wrap:wrap}
+  .minfo span b{color:var(--txt)}
+
+  .mbody{padding:20px 24px}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:720px){.row{grid-template-columns:1fr}.toc-grid{grid-template-columns:1fr}}
+  .block h4{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;border-left:2px solid var(--accent);padding-left:8px}
+  .block p{font-size:13.5px;color:#cdd6ea;margin-bottom:8px}
+  .block ul{list-style:none;font-size:13.5px}
+  .block li{padding:3px 0 3px 16px;position:relative;color:#cdd6ea}
+  .block li::before{content:"";position:absolute;left:2px;top:11px;width:5px;height:5px;border-radius:50%;background:var(--accent2)}
+
+  table.mini{width:100%;border-collapse:collapse;font-size:13px;margin:6px 0 4px}
+  table.mini th,table.mini td{padding:6px 8px;text-align:left;border-bottom:1px solid var(--line)}
+  table.mini th{color:var(--muted);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.5px}
+  table.mini td.num{text-align:center}
+  table.mini tr.lead td{color:var(--green);font-weight:600}
+
+  .verdict{margin-top:18px;background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+  .verdict h4{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+  .vgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-bottom:12px}
+  .vcell{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+  .vcell .lbl{font-size:10.5px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)}
+  .vcell .val{font-size:16px;font-weight:700;margin-top:3px}
+  .vcell .val.score{font-size:20px;color:var(--accent)}
+  .badge{display:inline-block;font-size:11px;font-weight:700;padding:3px 9px;border-radius:6px;margin-top:4px}
+  .b-low{background:rgba(61,220,151,.14);color:var(--green)}
+  .b-med{background:rgba(247,168,62,.16);color:var(--amber)}
+  .b-high{background:rgba(255,92,108,.16);color:var(--red)}
+  .rationale{font-size:13px;color:#cdd6ea;font-style:italic;border-top:1px dashed var(--line);padding-top:12px}
+  .rationale b{font-style:normal;color:var(--txt)}
+
+  /* probability bar */
+  .probbar{display:flex;height:30px;border-radius:8px;overflow:hidden;margin:4px 0 10px;font-size:11px;font-weight:700}
+  .probbar div{display:flex;align-items:center;justify-content:center;color:#06121f;white-space:nowrap}
+  .p-home{background:linear-gradient(90deg,#3ddc97,#2bb37b)}
+  .p-draw{background:linear-gradient(90deg,#6b7794,#566184);color:#fff}
+  .p-away{background:linear-gradient(90deg,#5b9dff,#3b82f6);color:#fff}
+
+  .summary{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:26px;margin-top:46px}
+  .summary h2{font-size:22px;margin-bottom:6px}
+  .summary>p{color:var(--muted);font-size:13.5px;margin-bottom:18px}
+  table.big{width:100%;border-collapse:collapse;font-size:13px}
+  table.big th,table.big td{padding:10px 10px;text-align:left;border-bottom:1px solid var(--line)}
+  table.big th{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.5px;position:sticky;top:0}
+  table.big td.c{text-align:center}
+  table.big tr:hover{background:var(--panel2)}
+  .win{font-weight:700;color:var(--accent)}
+  .wrap-scroll{overflow-x:auto}
+
+  footer{margin-top:50px;color:var(--muted);font-size:12px;text-align:center;padding:0 20px}
+  .disclaimer{background:rgba(255,92,108,.07);border:1px solid rgba(255,92,108,.25);border-radius:12px;padding:16px 20px;margin-top:30px;font-size:12.5px;color:#d7b9bd}
+  a.src{color:var(--accent2);text-decoration:none}
+  a.src:hover{text-decoration:underline}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:10px}
+  .legend span{display:flex;align-items:center;gap:5px}
+  .sw{width:11px;height:11px;border-radius:3px;display:inline-block}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="kicker">FIFA World Cup 2026 · USA · Canada · Mexico</div>
+  <h1>Match Analysis &amp; Predictions</h1>
+  <p>Comprehensive data-driven previews for today's headline fixture and the full slate through June 21 — Matchday 2 of the group stage. World Cup pedigree, FIFA rankings, current form, squads, head-to-head, and probability-based predictions for every game.</p>
+  <div class="meta">
+    <span class="pill"><b>12</b> matches</span>
+    <span class="pill"><b>Jun 18 → Jun 21, 2026</b></span>
+    <span class="pill">Compiled <b>Jun 18, 2026</b></span>
+    <span class="pill">48-team expanded format</span>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- TOC -->
+  <nav class="toc">
+    <h2>Jump to a match</h2>
+    <div class="toc-grid">
+      <a href="#m1"><span>🇲🇽 Mexico vs South Korea 🇰🇷</span><span class="t">Thu · headline</span></a>
+      <a href="#m2"><span>🇺🇸 USA vs Australia 🇦🇺</span><span class="t">Fri</span></a>
+      <a href="#m3"><span>🏴 Scotland vs Morocco 🇲🇦</span><span class="t">Fri</span></a>
+      <a href="#m4"><span>🇧🇷 Brazil vs Haiti 🇭🇹</span><span class="t">Fri</span></a>
+      <a href="#m5"><span>🇳🇱 Netherlands vs Sweden 🇸🇪</span><span class="t">Sat</span></a>
+      <a href="#m6"><span>🇩🇪 Germany vs Ivory Coast 🇨🇮</span><span class="t">Sat</span></a>
+      <a href="#m7"><span>🇪🇨 Ecuador vs Curaçao 🇨🇼</span><span class="t">Sat</span></a>
+      <a href="#m8"><span>🇹🇳 Tunisia vs Japan 🇯🇵</span><span class="t">Sat (late)</span></a>
+      <a href="#m9"><span>🇪🇸 Spain vs Saudi Arabia 🇸🇦</span><span class="t">Sun</span></a>
+      <a href="#m10"><span>🇧🇪 Belgium vs Iran 🇮🇷</span><span class="t">Sun</span></a>
+      <a href="#m11"><span>🇺🇾 Uruguay vs Cape Verde 🇨🇻</span><span class="t">Sun</span></a>
+      <a href="#m12"><span>🇳🇿 New Zealand vs Egypt 🇪🇬</span><span class="t">Sun</span></a>
+      <a href="#summary"><span>📊 Full Predictions Table</span><span class="t">all 12</span></a>
+    </div>
+    <div class="legend">
+      <span><i class="sw" style="background:#3ddc97"></i>Home/favorite win prob</span>
+      <span><i class="sw" style="background:#566184"></i>Draw prob</span>
+      <span><i class="sw" style="background:#3b82f6"></i>Away/underdog win prob</span>
+      <span><i class="sw b-low" style="background:rgba(61,220,151,.5)"></i>Low</span>
+      <span><i class="sw b-med" style="background:rgba(247,168,62,.6)"></i>Medium</span>
+      <span><i class="sw b-high" style="background:rgba(255,92,108,.6)"></i>High</span>
+    </div>
+  </nav>
+
+  <!-- ============ THURSDAY ============ -->
+  <section class="daygroup">
+    <div class="dayhead"><span class="dot"></span><h2>Thursday, June 18 — Tonight</h2></div>
+    <div class="daysub">The last game of the day, kicking off now.</div>
+
+    <!-- M1 -->
+    <article class="match headline" id="m1">
+      <div class="mhead">
+        <div class="mtop">
+          <div class="mteams">🇲🇽 Mexico <span class="vs">vs</span> South Korea 🇰🇷</div>
+          <div class="mtag live">★ TONIGHT'S HEADLINE · Group A</div>
+        </div>
+        <div class="minfo">
+          <span>🕘 <b>9:00 PM ET</b></span>
+          <span>📍 <b>Estadio Akron, Guadalajara</b></span>
+          <span>🏆 Winner likely seals knockout berth</span>
+        </div>
+      </div>
+      <div class="mbody">
+        <div class="row">
+          <div class="block">
+            <h4>Group A after Matchday 1</h4>
+            <table class="mini">
+              <tr><th>Team</th><th class="num">W-D-L</th><th class="num">GD</th><th class="num">Pts</th></tr>
+              <tr class="lead"><td>Mexico</td><td class="num">1-0-0</td><td class="num">+2</td><td class="num">3</td></tr>
+              <tr class="lead"><td>South Korea</td><td class="num">1-0-0</td><td class="num">+1</td><td class="num">3</td></tr>
+              <tr><td>Czechia</td><td class="num">0-1-0</td><td class="num">0</td><td class="num">1</td></tr>
+              <tr><td>South Africa</td><td class="num">0-1-0</td><td class="num">0</td><td class="num">1</td></tr>
+            </table>
+            <p><b>MD1:</b> Mexico 2–0 South Africa (Jiménez ended a 12-yr WC drought; a record 3 red cards). Korea 2–1 Czechia (Hwang In-beom scored &amp; assisted, late comeback).</p>
+          </div>
+          <div class="block">
+            <h4>Pedigree &amp; Rankings</h4>
+            <ul>
+              <li><b>FIFA:</b> Mexico ~14th · Korea ~25th</li>
+              <li><b>Mexico:</b> 18 WCs; QF best (1970,'86); group-stage out in 2022 — extra motivation</li>
+              <li><b>Korea:</b> 4th in 2002 (best by an Asian side); R16 in 2022</li>
+              <li><b>H2H:</b> Mexico 8W–3D–4L; <b>2–0 in World Cups</b></li>
+              <li><b>Edge:</b> Home advantage + best defence in group (1 goal conceded all year)</li>
+            </ul>
+          </div>
+        </div>
+        <div class="block" style="margin-top:14px">
+          <h4>Key Players &amp; Form</h4>
+          <p><b>Mexico</b> (Aguirre): Edson Álvarez, S. Giménez, R. Jiménez, Pineda; Ochoa eyeing a record 6th WC. Unbeaten 2026, conceding just 1 goal (incl. 5–1 Serbia). <b>Korea</b> (Hong Myung-bo): Son Heung-min, Kim Min-jae, Lee Kang-in, Hwang In-beom — top-end talent but defence shaky vs quality (0–4 Ivory Coast, 0–1 Austria).</p>
+        </div>
+
+        <div class="verdict">
+          <h4>⚖ Prediction</h4>
+          <div class="probbar">
+            <div class="p-home" style="width:48%">Mexico 48%</div>
+            <div class="p-draw" style="width:29%">Draw 29%</div>
+            <div class="p-away" style="width:23%">Korea 23%</div>
+          </div>
+          <div class="vgrid">
+            <div class="vcell"><div class="lbl">Winner</div><div class="val">Mexico</div></div>
+            <div class="vcell"><div class="lbl">Scoreline</div><div class="val score">2–1</div></div>
+            <div class="vcell"><div class="lbl">Draw</div><div class="val"><span class="badge b-med">Medium</span></div></div>
+            <div class="vcell"><div class="lbl">Both Score</div><div class="val"><span class="badge b-med">Medium</span></div></div>
+            <div class="vcell"><div class="lbl">Goals O/U 2.5</div><div class="val">Lean Under</div></div>
+          </div>
+          <div class="rationale"><b>Rationale:</b> Home advantage, the best defensive form in the group, and a perfect World Cup H2H make Mexico the deserved narrow favorite — but Son-led Korea has enough quality to draw or sneak a goal. A 2–1 Mexico win or a 1–1/2–2 draw are the realistic outcomes. One of the night's most "live" games.</div>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <!-- ============ FRIDAY ============ -->
+  <section class="daygroup">
+    <div class="dayhead"><span class="dot"></span><h2>Friday, June 19</h2></div>
+    <div class="daysub">Hosts USA in action; Brazil chase a first win in Group C.</div>
+
+    <!-- M2 -->
+    <article class="match" id="m2">
+      <div class="mhead">
+        <div class="mtop"><div class="mteams">🇺🇸 USA <span class="vs">vs</span> Australia 🇦🇺</div><div class="mtag">Group D</div></div>
+        <div class="minfo"><span>🕒 <b>3:00 PM ET</b></span><span>📍 <b>Lumen Field, Seattle</b></span><span>Both won MD1</span></div>
+      </div>
+      <div class="mbody">
+        <div class="row">
+          <div class="block">
+            <h4>Context</h4>
+            <ul>
+              <li><b>FIFA:</b> USA 17th · Australia 27th</li>
+              <li><b>MD1:</b> USA 4–1 Paraguay (Balogun brace) · Australia 2–0 Türkiye (upset)</li>
+              <li><b>WC:</b> USA 12 apps, R16 in '14 &amp;'22 · Australia 6th straight, R16 best</li>
+              <li><b>H2H:</b> USA 2W–1D–1L; last USA 2–1 (Oct 2025)</li>
+            </ul>
+          </div>
+          <div class="block">
+            <h4>Form &amp; Stars</h4>
+            <p><b>USA</b> (Pochettino): Pulisic, Balogun, McKennie, Adams — trending up but leaked goals in spring. <b>Australia</b> (Popovic): deep 3-4-2-1 block, GK Beach starred; lost 3 friendlies then upset Türkiye. <b>Pulisic</b> start uncertain (off at HT vs Paraguay).</p>
+          </div>
+        </div>
+        <div class="verdict">
+          <h4>⚖ Prediction</h4>
+          <div class="probbar"><div class="p-home" style="width:62%">USA 62%</div><div class="p-draw" style="width:21%">Draw 21%</div><div class="p-away" style="width:17%">AUS 17%</div></div>
+          <div class="vgrid">
+            <div class="vcell"><div class="lbl">Winner</div><div class="val">USA</div></div>
+            <div class="vcell"><div class="lbl">Scoreline</div><div class="val score">2–1</div></div>
+            <div class="vcell"><div class="lbl">Draw</div><div class="val"><span class="badge b-low">Low-Med</span></div></div>
+            <div class="vcell"><div class="lbl">Both Score</div><div class="val"><span class="badge b-med">Medium</span></div></div>
+            <div class="vcell"><div class="lbl">Goals O/U 2.5</div><div class="val">Marginal Over</div></div>
+          </div>
+          <div class="rationale"><b>Rationale:</b> In-form, higher-ranked hosts with the better attack and a hostile Seattle crowd edge a competitive game against a disciplined Australian low block that strikes on the counter.</div>
+        </div>
+      </div>
+    </article>
+
+    <!-- M3 -->
+    <article class="match" id="m3">
+      <div class="mhead">
+        <div class="mtop"><div class="mteams">🏴 Scotland <span class="vs">vs</span> Morocco 🇲🇦</div><div class="mtag">Group C</div></div>
+        <div class="minfo"><span>🕕 <b>6:00 PM ET</b></span><span>📍 <b>Gillette Stadium, Foxborough</b></span></div>
+      </div>
+      <div class="mbody">
+        <div class="row">
+          <div class="block">
+            <h4>Context</h4>
+            <ul>
+              <li><b>FIFA:</b> Morocco ~7th · Scotland ~40th (30+ gap)</li>
+              <li><b>MD1:</b> Scotland 1–0 Haiti (McGinn) · Brazil 1–1 Morocco (Morocco held a favorite)</li>
+              <li><b>WC:</b> Morocco 2022 semifinalists · Scotland never reached the knockouts</li>
+              <li><b>H2H:</b> Morocco 3–0 (1998 WC); Scotland never beaten them</li>
+            </ul>
+          </div>
+          <div class="block">
+            <h4>Form &amp; Stars</h4>
+            <p><b>Morocco</b> (new coach Ouahbi): Hakimi, Brahim Díaz, Amrabat; flawless qualifying (12 GF, 1 GA) — but En-Nesyri omitted, no settled No.9. <b>Scotland</b> (Clarke): McTominay, Robertson, McGinn — won 4 of last 5, but <b>Gilmour out (tournament-ending injury)</b>, a big midfield blow.</p>
+          </div>
+        </div>
+        <div class="verdict">
+          <h4>⚖ Prediction</h4>
+          <div class="probbar"><div class="p-home" style="width:22%">SCO 22%</div><div class="p-draw" style="width:27%">Draw 27%</div><div class="p-away" style="width:51%">MAR 51%</div></div>
+          <div class="vgrid">
+            <div class="vcell"><div class="lbl">Winner</div><div class="val">Morocco</div></div>
+            <div class="vcell"><div class="lbl">Scoreline</div><div class="val score">1–0</div></div>
+            <div class="vcell"><div class="lbl">Draw</div><div class="val"><span class="badge b-med">Medium</span></div></div>
+            <div class="vcell"><div class="lbl">Both Score</div><div class="val"><span class="badge b-low">Low-Med</span></div></div>
+            <div class="vcell"><div class="lbl">Goals O/U 2.5</div><div class="val">Lean Under</div></div>
+          </div>
+          <div class="rationale"><b>Rationale:</b> Deeper, higher-ranked 2022 semifinalists should edge a tight, defence-first game, but Scotland's in-form low block and set-piece threat keep a draw genuinely in play. Expect cagey, low-scoring football.</div>
+        </div>
+      </div>
+    </article>
+
+    <!-- M4 -->
+    <article class="match" id="m4">
+      <div class="mhead">
+        <div class="mtop"><div class="mteams">🇧🇷 Brazil <span class="vs">vs</span> Haiti 🇭🇹</div><div class="mtag">Group C</div></div>
+        <div class="minfo"><span>🕤 <b>~9:00 PM ET</b></span><span>📍 <b>Lincoln Financial Field, Philadelphia</b></span></div>
+      </div>
+      <div class="mbody">
+        <div class="row">
+          <div class="block">
+            <h4>Context</h4>
+            <ul>
+              <li><b>FIFA:</b> Brazil 6th · Haiti 84th (≈78-place gulf)</li>
+              <li><b>MD1:</b> Brazil 1–1 Morocco · Haiti 0–1 Scotland</li>
+              <li><b>WC:</b> Brazil 5× champions, every WC · <b>Haiti's first WC since 1974 (52-yr gap)</b></li>
+              <li><b>H2H:</b> Brazil won prior two 4–0 &amp; 6–0 (agg 10–0)</li>
+            </ul>
+          </div>
+          <div class="block">
+            <h4>Form &amp; Stars</h4>
+            <p><b>Brazil</b> (Ancelotti): Vinícius Jr (scored vs Morocco), Raphinha, Endrick, Casemiro — but defence looked beatable; <b>Neymar uncertain (calf), Rodrygo omitted</b>. <b>Haiti</b> (Migné): Isidor, Nazon, Bellegarde — diaspora-heavy, organized but yet to score in the tournament.</p>
+          </div>
+        </div>
+        <div class="verdict">
+          <h4>⚖ Prediction</h4>
+          <div class="probbar"><div class="p-home" style="width:84%">Brazil 84%</div><div class="p-draw" style="width:11%">Draw 11%</div><div class="p-away" style="width:5%">HAI 5%</div></div>
+          <div class="vgrid">
+            <div class="vcell"><div class="lbl">Winner</div><div class="val">Brazil</div></div>
+            <div class="vcell"><div class="lbl">Scoreline</div><div class="val score">3–0</div></div>
+            <div class="vcell"><div class="lbl">Draw</div><div class="val"><span class="badge b-low">Low</span></div></div>
+            <div class="vcell"><div class="lbl">Both Score</div><div class="val"><span class="badge b-low">Low</span></div></div>
+            <div class="vcell"><div class="lbl">Goals O/U 2.5</div><div class="val">Over (BR clean sheet)</div></div>
+          </div>
+          <div class="rationale"><b>Rationale:</b> A No. 6 vs No. 84 chasm. Brazil drew their opener and need a win to seize Group C — expect a comfortable multi-goal win against a deep-sitting, still-goalless debutant. Their only risk is wastefulness, not the result.</div>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <!-- ============ SATURDAY ============ -->
+  <section class="daygroup">
+    <div class="dayhead"><span class="dot"></span><h2>Saturday, June 20</h2></div>
+    <div class="daysub">Germany's firepower, an Isak–Gyökeres test for the Dutch, and the tournament's 1,000th-ever match.</div>
+
+    <!-- M5 -->
+    <article class="match" id="m5">
+      <div class="mhead">
+        <div class="mtop"><div class="mteams">🇳🇱 Netherlands <span class="vs">vs</span> Sweden 🇸🇪</div><div class="mtag">Group F</div></div>
+        <div class="minfo"><span>🕐 <b>1:00 PM ET</b></span><span>📍 <b>NRG Stadium, Houston</b></span></div>
+      </div>
+      <div class="mbody">
+        <div class="row">
+          <div class="block">
+            <h4>Context</h4>
+            <ul>
+              <li><b>FIFA:</b> Netherlands 8th · Sweden 38th</li>
+              <li><b>MD1:</b> Netherlands 2–2 Japan (leaky defence) · Sweden 5–1 Tunisia (Isak &amp; Gyökeres clicked)</li>
+              <li><b>WC:</b> NED 3× runners-up · Sweden runners-up 1958, missed 2022</li>
+              <li><b>H2H:</b> high-scoring fixture (6 of last 9 had 3+ goals)</li>
+            </ul>
+          </div>
+          <div class="block">
+            <h4>Form &amp; Stars</h4>
+            <p><b>Netherlands</b> (Koeman): Van Dijk, De Jong, Gakpo, Reijnders — <b>no clean sheet in 5</b>, defence is the weakness. <b>Sweden</b> (Potter): <b>Isak + Gyökeres</b> an elite strike pairing, both firing after the 5–1 opener.</p>
+          </div>
+        </div>
+        <div class="verdict">
+          <h4>⚖ Prediction</h4>
+          <div class="probbar"><div class="p-home" style="width:54%">NED 54%</div><div class="p-draw" style="width:24%">Draw 24%</div><div class="p-away" style="width:22%">SWE 22%</div></div>
+          <div class="vgrid">
+            <div class="vcell"><div class="lbl">Winner</div><div class="val">Netherlands</div></div>
+            <div class="vcell"><div class="lbl">Scoreline</div><div class="val score">2–1</div></div>
+            <div class="vcell"><div class="lbl">Draw</div><div class="val"><span class="badge b-med">Medium</span></div></div>
+            <div class="vcell"><div class="lbl">Both Score</div><div class="val"><span class="badge b-high">High</span></div></div>
+            <div class="vcell"><div class="lbl">Goals O/U 2.5</div><div class="val">Lean Over</div></div>
+          </div>
+          <div class="rationale"><b>Rationale:</b> Dutch class should edge it, but a porous Netherlands defence against a confident Isak/Gyökeres duo makes BTTS and Over 2.5 the stronger plays than a clean Dutch win. Expect goals at both ends.</div>
+        </div>
+      </div>
+    </article>
+
+    <!-- M6 -->
+    <article class="match" id="m6">
+      <div class="mhead">
+        <div class="mtop"><div class="mteams">🇩🇪 Germany <span class="vs">vs</span> Ivory Coast 🇨🇮</div><div class="mtag">Group E</div></div>
+        <div class="minfo"><span>🕓 <b>4:00 PM ET</b></span><span>📍 <b>BMO Field, Toronto</b></span></div>
+      </div>
+      <div class="mbody">
+        <div class="row">
+          <div class="block">
+            <h4>Context</h4>
+            <ul>
+              <li><b>FIFA:</b> Germany 10th · Ivory Coast 33rd</li>
+              <li><b>MD1:</b> Germany 7–1 Curaçao (demolition) · Ivory Coast 1–0 Ecuador (Amad Diallo 90')</li>
+              <li><b>WC:</b> Germany 4× champions but group-out in 2018 &amp; 2022 · I. Coast never escaped a group</li>
+              <li><b>H2H:</b> one meeting, 2–2 friendly (2009)</li>
+            </ul>
+          </div>
+          <div class="block">
+            <h4>Form &amp; Stars</h4>
+            <p><b>Germany</b> (Nagelsmann): <b>Musiala–Wirtz–Havertz</b> core, 5-game win streak — but backline wobbled (3 vs Switzerland). <b>Ivory Coast</b> (Faé): AFCON 2023 champions, organized low block + counters via Diallo/Adingra/Pépé; N'Dicka (hamstring) doubtful, zero WC experience.</p>
+          </div>
+        </div>
+        <div class="verdict">
+          <h4>⚖ Prediction</h4>
+          <div class="probbar"><div class="p-home" style="width:64%">GER 64%</div><div class="p-draw" style="width:20%">Draw 20%</div><div class="p-away" style="width:16%">CIV 16%</div></div>
+          <div class="vgrid">
+            <div class="vcell"><div class="lbl">Winner</div><div class="val">Germany</div></div>
+            <div class="vcell"><div class="lbl">Scoreline</div><div class="val score">2–1</div></div>
+            <div class="vcell"><div class="lbl">Draw</div><div class="val"><span class="badge b-low">Low-Med</span></div></div>
+            <div class="vcell"><div class="lbl">Both Score</div><div class="val"><span class="badge b-med">Med-High</span></div></div>
+            <div class="vcell"><div class="lbl">Goals O/U 2.5</div><div class="val">Marginal Over</div></div>
+          </div>
+          <div class="rationale"><b>Rationale:</b> Germany's firepower should win it, but Ivory Coast are far tougher than the Curaçao scoreline implies — AFCON champions whose counters against a lapse-prone German backline make BTTS Yes a credible secondary play.</div>
+        </div>
+      </div>
+    </article>
+
+    <!-- M7 -->
+    <article class="match" id="m7">
+      <div class="mhead">
+        <div class="mtop"><div class="mteams">🇪🇨 Ecuador <span class="vs">vs</span> Curaçao 🇨🇼</div><div class="mtag">Group E</div></div>
+        <div class="minfo"><span>🕗 <b>8:00 PM ET</b></span><span>📍 <b>Arrowhead Stadium, Kansas City</b></span></div>
+      </div>
+      <div class="mbody">
+        <div class="row">
+          <div class="block">
+            <h4>Context</h4>
+            <ul>
+              <li><b>FIFA:</b> Ecuador 24th · Curaçao 82nd (58-place gap)</li>
+              <li><b>MD1:</b> Ecuador 0–1 Ivory Coast (must-win now) · Curaçao 1–7 Germany</li>
+              <li><b>WC:</b> Ecuador R16 best (2006) · <b>Curaçao: smallest nation ever to qualify (~156k)</b>, first WC</li>
+              <li><b>H2H:</b> never met</li>
+            </ul>
+          </div>
+          <div class="block">
+            <h4>Form &amp; Stars</h4>
+            <p><b>Ecuador</b> (Beccacece): Caicedo, Hincapié, Valencia — <b>elite defence: 5 goals conceded in 18 qualifiers</b>, but low-scoring. <b>Curaçao</b> (Fred Rutten — <i>not</i> Advocaat, who resigned Feb 2026): Bacuna brothers, Chong; shipped 7 to Germany, leaking 4–7 a game.</p>
+          </div>
+        </div>
+        <div class="verdict">
+          <h4>⚖ Prediction</h4>
+          <div class="probbar"><div class="p-home" style="width:78%">ECU 78%</div><div class="p-draw" style="width:15%">Draw 15%</div><div class="p-away" style="width:7%">CUW 7%</div></div>
+          <div class="vgrid">
+            <div class="vcell"><div class="lbl">Winner</div><div class="val">Ecuador</div></div>
+            <div class="vcell"><div class="lbl">Scoreline</div><div class="val score">2–0</div></div>
+            <div class="vcell"><div class="lbl">Draw</div><div class="val"><span class="badge b-low">Low</span></div></div>
+            <div class="vcell"><div class="lbl">Both Score</div><div class="val"><span class="badge b-low">Low</span></div></div>
+            <div class="vcell"><div class="lbl">Goals O/U 2.5</div><div class="val">Near 2.5</div></div>
+          </div>
+          <div class="rationale"><b>Rationale:</b> Ecuador's tournament-best defence plus must-win urgency point to a comfortable win-to-nil against an 82nd-ranked debutant. Ecuador's low-scoring style keeps the total nearer 2.5–3.0 than a rout.</div>
+        </div>
+      </div>
+    </article>
+
+    <!-- M8 -->
+    <article class="match" id="m8">
+      <div class="mhead">
+        <div class="mtop"><div class="mteams">🇹🇳 Tunisia <span class="vs">vs</span> Japan 🇯🇵</div><div class="mtag">Group F · 1,000th WC match</div></div>
+        <div class="minfo"><span>🕚 <b>~11:00 PM ET (late)</b></span><span>📍 <b>Estadio BBVA, Monterrey</b></span></div>
+      </div>
+      <div class="mbody">
+        <div class="row">
+          <div class="block">
+            <h4>Context</h4>
+            <ul>
+              <li><b>FIFA:</b> Japan ~18th · Tunisia ~50th</li>
+              <li><b>MD1:</b> Japan 2–2 Netherlands (late Kamada equalizer) · Tunisia 1–5 Sweden (near must-win now)</li>
+              <li><b>WC:</b> Japan won 2022 group over Spain &amp; Germany · Tunisia never escaped a group</li>
+              <li><b>H2H:</b> Japan leads 3–1; last Japan 2–0 (2023)</li>
+            </ul>
+          </div>
+          <div class="block">
+            <h4>Form &amp; Stars</h4>
+            <p><b>Tunisia</b>: <b>sacked Lamouchi, appointed Hervé Renard</b> after the Sweden loss — new-manager bounce is the wildcard; attack toothless (2 goals in 5). <b>Japan</b> (Moriyasu): Kubo, Doan, Kamada, Ueda — strong form; injury concerns over Mitoma/Minamino (single-source).</p>
+          </div>
+        </div>
+        <div class="verdict">
+          <h4>⚖ Prediction</h4>
+          <div class="probbar"><div class="p-home" style="width:25%">TUN 25%</div><div class="p-draw" style="width:23%">Draw 23%</div><div class="p-away" style="width:52%">JPN 52%</div></div>
+          <div class="vgrid">
+            <div class="vcell"><div class="lbl">Winner</div><div class="val">Japan</div></div>
+            <div class="vcell"><div class="lbl">Scoreline</div><div class="val score">2–0</div></div>
+            <div class="vcell"><div class="lbl">Draw</div><div class="val"><span class="badge b-low">Low</span></div></div>
+            <div class="vcell"><div class="lbl">Both Score</div><div class="val"><span class="badge b-low">Low</span></div></div>
+            <div class="vcell"><div class="lbl">Goals O/U 2.5</div><div class="val">Lean Under</div></div>
+          </div>
+          <div class="rationale"><b>Rationale:</b> Japan's quality and Tunisia's collapse point to a controlled Japanese win, with goals concentrated on Japan's side. A Renard new-manager bounce is the only real upset watch.</div>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <!-- ============ SUNDAY ============ -->
+  <section class="daygroup">
+    <div class="dayhead"><span class="dot"></span><h2>Sunday, June 21</h2></div>
+    <div class="daysub">A quirk worth noting: <b>every Group G &amp; H opener ended in a draw</b> — all eight teams here are level on 1 point, chasing a first win.</div>
+
+    <!-- M9 -->
+    <article class="match" id="m9">
+      <div class="mhead">
+        <div class="mtop"><div class="mteams">🇪🇸 Spain <span class="vs">vs</span> Saudi Arabia 🇸🇦</div><div class="mtag">Group H</div></div>
+        <div class="minfo"><span>🕛 <b>12:00 PM ET</b></span><span>📍 <b>Mercedes-Benz Stadium, Atlanta</b></span></div>
+      </div>
+      <div class="mbody">
+        <div class="row">
+          <div class="block">
+            <h4>Context</h4>
+            <ul>
+              <li><b>FIFA:</b> Spain No. 2 · Saudi Arabia ~No. 60 (≈58-place gulf)</li>
+              <li><b>MD1:</b> Spain 0–0 Cape Verde (shock — ~27 shots) · Saudi 1–1 Uruguay</li>
+              <li><b>WC:</b> Spain 2010 champions · Saudi R16 best (1994), beat Argentina 2022</li>
+              <li><b>H2H:</b> Spain 3–0 all-time (incl. 5–0)</li>
+            </ul>
+          </div>
+          <div class="block">
+            <h4>Form &amp; Stars</h4>
+            <p><b>Spain</b> (de la Fuente): Lamine Yamal, Pedri, Rodri, Nico Williams — dominant in qualifying but recently blunted by deep blocks (three straight 0–0/1–1). <b>Saudi Arabia</b> (Donis): Al-Dawsari, Al-Buraikan; compact 4-4-2 that will park the bus exactly as Cape Verde did.</p>
+          </div>
+        </div>
+        <div class="verdict">
+          <h4>⚖ Prediction</h4>
+          <div class="probbar"><div class="p-home" style="width:82%">Spain 82%</div><div class="p-draw" style="width:13%">Draw 13%</div><div class="p-away" style="width:5%">KSA 5%</div></div>
+          <div class="vgrid">
+            <div class="vcell"><div class="lbl">Winner</div><div class="val">Spain</div></div>
+            <div class="vcell"><div class="lbl">Scoreline</div><div class="val score">2–0</div></div>
+            <div class="vcell"><div class="lbl">Draw</div><div class="val"><span class="badge b-low">Low</span></div></div>
+            <div class="vcell"><div class="lbl">Both Score</div><div class="val"><span class="badge b-low">Low-Med</span></div></div>
+            <div class="vcell"><div class="lbl">Goals O/U 2.5</div><div class="val">Near/Under 2.5</div></div>
+          </div>
+          <div class="rationale"><b>Rationale:</b> A No. 2 Euro champion with a perfect H2H and bounce-back motivation overcomes a ~No. 60 side in a deep block — quality tells, but Saudi organization keeps the margin modest.</div>
+        </div>
+      </div>
+    </article>
+
+    <!-- M10 -->
+    <article class="match" id="m10">
+      <div class="mhead">
+        <div class="mtop"><div class="mteams">🇧🇪 Belgium <span class="vs">vs</span> Iran 🇮🇷</div><div class="mtag">Group G · closest tie on paper</div></div>
+        <div class="minfo"><span>🕒 <b>3:00 PM ET</b></span><span>📍 <b>SoFi Stadium, Los Angeles</b></span></div>
+      </div>
+      <div class="mbody">
+        <div class="row">
+          <div class="block">
+            <h4>Context</h4>
+            <ul>
+              <li><b>FIFA:</b> Belgium No. 9 · Iran No. 20 (11-place gap)</li>
+              <li><b>MD1:</b> Belgium 1–1 Egypt (flat) · Iran 2–2 New Zealand (twice trailed)</li>
+              <li><b>WC:</b> Belgium 3rd in 2018, group-out 2022 · Iran never past the group</li>
+              <li><b>H2H:</b> never met</li>
+            </ul>
+          </div>
+          <div class="block">
+            <h4>Form &amp; Stars</h4>
+            <p><b>Belgium</b> (Garcia): De Bruyne, Doku, Trossard, Lukaku, Courtois — a transitioning golden generation, sluggish in the opener. <b>Iran</b> (Ghalenoei): Taremi the talisman, compact counter-attackers; Azmoun omitted (dispute), hit by visa/training disruptions.</p>
+          </div>
+        </div>
+        <div class="verdict">
+          <h4>⚖ Prediction</h4>
+          <div class="probbar"><div class="p-home" style="width:55%">BEL 55%</div><div class="p-draw" style="width:27%">Draw 27%</div><div class="p-away" style="width:18%">IRN 18%</div></div>
+          <div class="vgrid">
+            <div class="vcell"><div class="lbl">Winner</div><div class="val">Belgium</div></div>
+            <div class="vcell"><div class="lbl">Scoreline</div><div class="val score">2–1</div></div>
+            <div class="vcell"><div class="lbl">Draw</div><div class="val"><span class="badge b-med">Medium</span></div></div>
+            <div class="vcell"><div class="lbl">Both Score</div><div class="val"><span class="badge b-low">Low-Med</span></div></div>
+            <div class="vcell"><div class="lbl">Goals O/U 2.5</div><div class="val">Near 2.5</div></div>
+          </div>
+          <div class="rationale"><b>Rationale:</b> Belgium's superior individual class and possession should overcome a disciplined, counter-reliant Iran, but Iran's organization plus Belgium's sluggish opener keep a draw or upset genuinely live — the closest matchup of the round.</div>
+        </div>
+      </div>
+    </article>
+
+    <!-- M11 -->
+    <article class="match" id="m11">
+      <div class="mhead">
+        <div class="mtop"><div class="mteams">🇺🇾 Uruguay <span class="vs">vs</span> Cape Verde 🇨🇻</div><div class="mtag">Group H</div></div>
+        <div class="minfo"><span>🕕 <b>6:00 PM ET</b></span><span>📍 <b>Hard Rock Stadium, Miami Gardens</b></span></div>
+      </div>
+      <div class="mbody">
+        <div class="row">
+          <div class="block">
+            <h4>Context</h4>
+            <ul>
+              <li><b>FIFA:</b> Uruguay No. 16 · Cape Verde ~No. 67 (≈51-place gap)</li>
+              <li><b>MD1:</b> Saudi 1–1 Uruguay (needed 80' equalizer) · Spain 0–0 Cape Verde (shut out Spain's 27 shots)</li>
+              <li><b>WC:</b> Uruguay 2× champions · <b>Cape Verde: first-ever WC</b> (~500k pop, 3rd-smallest ever)</li>
+              <li><b>H2H:</b> never met</li>
+            </ul>
+          </div>
+          <div class="block">
+            <h4>Form &amp; Stars</h4>
+            <p><b>Uruguay</b> (Bielsa): Valverde, Darwin Núñez, Araújo &amp; Giménez — <b>no Suárez</b> (first squad since 2002); only 3 natural forwards, a finishing concern vs a packed defence. <b>Cape Verde</b> (Bubista, 2025 CAF Coach of the Year): GK Vozinha (MD1 hero), Logan Costa — 7 clean sheets in 10 qualifiers.</p>
+          </div>
+        </div>
+        <div class="verdict">
+          <h4>⚖ Prediction</h4>
+          <div class="probbar"><div class="p-home" style="width:60%">URU 60%</div><div class="p-draw" style="width:27%">Draw 27%</div><div class="p-away" style="width:13%">CPV 13%</div></div>
+          <div class="vgrid">
+            <div class="vcell"><div class="lbl">Winner</div><div class="val">Uruguay</div></div>
+            <div class="vcell"><div class="lbl">Scoreline</div><div class="val score">1–0</div></div>
+            <div class="vcell"><div class="lbl">Draw</div><div class="val"><span class="badge b-med">Medium</span></div></div>
+            <div class="vcell"><div class="lbl">Both Score</div><div class="val"><span class="badge b-low">Low</span></div></div>
+            <div class="vcell"><div class="lbl">Goals O/U 2.5</div><div class="val">Under 2.5</div></div>
+          </div>
+          <div class="rationale"><b>Rationale:</b> Superior quality and urgency carry Uruguay past a stubborn, defence-first Cape Verde, but a striker-light attack and the Blue Sharks' Spain-frustrating block point to a narrow win, not a rout.</div>
+        </div>
+      </div>
+    </article>
+
+    <!-- M12 -->
+    <article class="match" id="m12">
+      <div class="mhead">
+        <div class="mtop"><div class="mteams">🇳🇿 New Zealand <span class="vs">vs</span> Egypt 🇪🇬</div><div class="mtag">Group G · six-pointer</div></div>
+        <div class="minfo"><span>🕘 <b>9:00 PM ET</b></span><span>📍 <b>BC Place, Vancouver</b></span></div>
+      </div>
+      <div class="mbody">
+        <div class="row">
+          <div class="block">
+            <h4>Context</h4>
+            <ul>
+              <li><b>FIFA:</b> Egypt ~No. 29 · New Zealand ~No. 85 (<b>lowest-ranked side in the tournament</b>)</li>
+              <li><b>MD1:</b> Iran 2–2 New Zealand (Just brace) · Belgium 1–1 Egypt</li>
+              <li><b>WC:</b> Egypt never won a WC match · NZ went home unbeaten in 2010 (3 draws)</li>
+              <li><b>H2H:</b> Egypt unbeaten (2W–1D); all 3 had ≤2 total goals</li>
+            </ul>
+          </div>
+          <div class="block">
+            <h4>Form &amp; Stars</h4>
+            <p><b>Egypt</b> (Hossam Hassan): <b>Salah</b> (likely his last WC), Marmoush, Trezeguet — strong defensive record (1–1 Brazil, 0–0 Spain, 4–0 Saudi). <b>New Zealand</b> (Bazeley): Chris Wood the aerial focal point, Elijah Just in form — but defensively frail vs Iran.</p>
+          </div>
+        </div>
+        <div class="verdict">
+          <h4>⚖ Prediction</h4>
+          <div class="probbar"><div class="p-home" style="width:24%">NZL 24%</div><div class="p-draw" style="width:27%">Draw 27%</div><div class="p-away" style="width:49%">EGY 49%</div></div>
+          <div class="vgrid">
+            <div class="vcell"><div class="lbl">Winner</div><div class="val">Egypt</div></div>
+            <div class="vcell"><div class="lbl">Scoreline</div><div class="val score">2–0</div></div>
+            <div class="vcell"><div class="lbl">Draw</div><div class="val"><span class="badge b-med">Medium</span></div></div>
+            <div class="vcell"><div class="lbl">Both Score</div><div class="val"><span class="badge b-low">Low-Med</span></div></div>
+            <div class="vcell"><div class="lbl">Goals O/U 2.5</div><div class="val">Lean Under</div></div>
+          </div>
+          <div class="rationale"><b>Rationale:</b> Egypt's far superior ranking, squad depth and Salah/Marmoush quality, plus an unbeaten low-scoring H2H and elite defensive form, deliver a controlled narrow win over the tournament's lowest-ranked side — though Wood's aerial threat keeps NZ live.</div>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <!-- ============ SUMMARY ============ -->
+  <section class="summary" id="summary">
+    <h2>📊 Full Predictions Table</h2>
+    <p>All 12 matches at a glance. Probabilities are analytical estimates anchored to current bookmaker lines and form; scorelines are the single most-likely result.</p>
+    <div class="wrap-scroll">
+      <table class="big">
+        <thead>
+          <tr>
+            <th>Day</th><th>Match</th><th class="c">Pick</th><th class="c">Score</th>
+            <th class="c">Win %</th><th class="c">Draw</th><th class="c">BTTS</th><th class="c">Goals</th><th class="c">Confidence</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Thu</td><td>Mexico vs South Korea</td><td class="c win">Mexico</td><td class="c">2–1</td><td class="c">48%</td><td class="c">Med</td><td class="c">Med</td><td class="c">U2.5</td><td class="c">Medium</td></tr>
+          <tr><td>Fri</td><td>USA vs Australia</td><td class="c win">USA</td><td class="c">2–1</td><td class="c">62%</td><td class="c">Low-Med</td><td class="c">Med</td><td class="c">O2.5</td><td class="c">Medium</td></tr>
+          <tr><td>Fri</td><td>Scotland vs Morocco</td><td class="c win">Morocco</td><td class="c">1–0</td><td class="c">51%</td><td class="c">Med</td><td class="c">Low-Med</td><td class="c">U2.5</td><td class="c">Medium</td></tr>
+          <tr><td>Fri</td><td>Brazil vs Haiti</td><td class="c win">Brazil</td><td class="c">3–0</td><td class="c">84%</td><td class="c">Low</td><td class="c">Low</td><td class="c">O2.5</td><td class="c">High</td></tr>
+          <tr><td>Sat</td><td>Netherlands vs Sweden</td><td class="c win">Netherlands</td><td class="c">2–1</td><td class="c">54%</td><td class="c">Med</td><td class="c">High</td><td class="c">O2.5</td><td class="c">Medium</td></tr>
+          <tr><td>Sat</td><td>Germany vs Ivory Coast</td><td class="c win">Germany</td><td class="c">2–1</td><td class="c">64%</td><td class="c">Low-Med</td><td class="c">Med-High</td><td class="c">O2.5</td><td class="c">Medium</td></tr>
+          <tr><td>Sat</td><td>Ecuador vs Curaçao</td><td class="c win">Ecuador</td><td class="c">2–0</td><td class="c">78%</td><td class="c">Low</td><td class="c">Low</td><td class="c">~2.5</td><td class="c">High</td></tr>
+          <tr><td>Sat</td><td>Tunisia vs Japan</td><td class="c win">Japan</td><td class="c">2–0</td><td class="c">52%</td><td class="c">Low</td><td class="c">Low</td><td class="c">U2.5</td><td class="c">Med-High</td></tr>
+          <tr><td>Sun</td><td>Spain vs Saudi Arabia</td><td class="c win">Spain</td><td class="c">2–0</td><td class="c">82%</td><td class="c">Low</td><td class="c">Low-Med</td><td class="c">~2.5</td><td class="c">High</td></tr>
+          <tr><td>Sun</td><td>Belgium vs Iran</td><td class="c win">Belgium</td><td class="c">2–1</td><td class="c">55%</td><td class="c">Med</td><td class="c">Low-Med</td><td class="c">~2.5</td><td class="c">Medium</td></tr>
+          <tr><td>Sun</td><td>Uruguay vs Cape Verde</td><td class="c win">Uruguay</td><td class="c">1–0</td><td class="c">60%</td><td class="c">Med</td><td class="c">Low</td><td class="c">U2.5</td><td class="c">Medium</td></tr>
+          <tr><td>Sun</td><td>New Zealand vs Egypt</td><td class="c win">Egypt</td><td class="c">2–0</td><td class="c">49%</td><td class="c">Med</td><td class="c">Low-Med</td><td class="c">U2.5</td><td class="c">Med-High</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 style="margin-top:30px;font-size:18px">🔑 Cross-cutting takeaways</h2>
+    <ul style="font-size:13.5px;margin-top:10px">
+      <li><b>Most likely draws:</b> Mexico–Korea, Scotland–Morocco and Belgium–Iran are the live draw candidates (all ~27–29%). Everything else leans decisively to a winner.</li>
+      <li><b>Best "both teams score" bet:</b> Netherlands–Sweden (High) — a leaky Dutch defence vs the Isak–Gyökeres pairing. Germany–Ivory Coast is the secondary BTTS play.</li>
+      <li><b>Safest results:</b> Brazil over Haiti (84%), Spain over Saudi Arabia (82%) and Ecuador over Curaçao (78%) — though deep-block underdogs keep the <i>margins</i> modest in the latter two.</li>
+      <li><b>Upset / volatility watch:</b> Tunisia's new Hervé Renard bounce, Belgium's flat opener, and Cape Verde's Spain-frustrating block are the round's biggest wildcards.</li>
+      <li><b>History on the line:</b> Cape Verde, Curaçao and Haiti are all making rare/first-ever World Cup appearances; Mexico and Germany are both nursing 2022 group-stage humiliations.</li>
+    </ul>
+
+    <div class="disclaimer">
+      <b>⚠ Reliability note.</b> This analysis was compiled from live web research on June 18, 2026 (Matchday 1 results and standings confirmed across ESPN, FIFA, Wikipedia, Sky Sports and bookmaker lines). Predicted XIs, some injury reports (e.g. Pulisic, Neymar, Japan's Mitoma) and exact betting odds can shift right up to kickoff — do a final lineup check before each match. Probabilities are analytical estimates, not guarantees, and are intended for informational/entertainment purposes only.
+    </div>
+  </section>
+
+  <footer>
+    <p>FIFA World Cup 2026 — Group-stage Matchday 2 preview · Generated June 18, 2026.<br>
+    Sources include ESPN, FIFA.com, Wikipedia (2026 World Cup group pages), Sky Sports, CBS Sports, Al Jazeera, Rotowire and consensus bookmaker markets (DraftKings, Kalshi).</p>
+  </footer>
+
+</div>
+</body>
+</html>
