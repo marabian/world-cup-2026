@@ -26,10 +26,15 @@ border-radius:16px;padding:18px 22px;margin:26px 0;font-size:14px;color:#d4ddf0}
 .toc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:8px}
 .toc a{color:var(--txt);text-decoration:none;font-size:13.5px;padding:8px 12px;border-radius:9px;display:flex;justify-content:space-between;gap:8px;border:1px solid transparent}
 .toc a:hover{background:var(--panel2);border-color:var(--line)} .toc a .t{font-size:11px;color:var(--muted);white-space:nowrap}
-.method{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:24px;margin:24px 0}
-.method h2{font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
-.method ol{margin-left:18px;font-size:13.5px;color:#cdd6ea} .method li{padding:5px 0}
-.method code{background:var(--panel2);padding:1px 6px;border-radius:5px;font-size:12.5px;color:var(--accent)}
+details.method{background:transparent;border:1px solid var(--line);border-radius:12px;padding:4px 18px;margin:18px 0}
+details.method summary{cursor:pointer;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);padding:12px 0;list-style:none;user-select:none}
+details.method summary::-webkit-details-marker{display:none}
+details.method summary::before{content:"▸ ";color:var(--accent)}
+details.method[open] summary::before{content:"▾ "}
+details.method summary:hover{color:var(--txt)}
+details.method .mp{font-size:12.5px;color:var(--muted);padding-bottom:8px} details.method .mp b{color:#cdd6ea}
+details.method ol{margin:6px 0 14px 18px;font-size:12.5px;color:var(--muted)} details.method li{padding:4px 0} details.method li b{color:#cdd6ea}
+details.method code{background:var(--panel2);padding:1px 6px;border-radius:5px;font-size:12px;color:var(--accent)}
 .daygroup{margin-top:42px}
 .dayhead{display:flex;align-items:center;gap:14px;margin-bottom:6px}
 .dayhead .dot{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 14px var(--accent)}
@@ -108,19 +113,6 @@ footer{margin-top:50px;color:var(--muted);font-size:12px;text-align:center;paddi
       <a href="#summary"><span>📊 Full model output</span><span class="t">all 12</span></a>
     </div>
   </nav>
-  <div class="banner">
-    <b>How this differs from the first report.</b> The earlier page anchored its probabilities to bookmaker lines. This one ignores betting markets entirely: I gave each of the 24 teams an attack &amp; defence rating from raw scoring/conceding rates — correcting for schedule inflation (Belgium's 3.6 goals/game came vs UEFA minnows; Curaçao's 0.3 conceded was a CONCACAF artifact) — then simulated the full scoreline distribution. Most picks agree with the market, but the <b>magnitudes differ</b>: my model is more skeptical of Uruguay and more draw-leaning on Mexico–Korea.
-  </div>
-  <div class="method">
-    <h2>Methodology — show your work</h2>
-    <ol>
-      <li><b>Raw inputs.</b> For all 24 teams: goals scored/conceded per game and any available xG/xGA over the last ~10–15 competitive matches (2026 qualifiers + 2025–26 friendlies + World Cup Matchday 1), plus strength-of-schedule.</li>
-      <li><b>Ratings.</b> Each team gets <code>atk</code> (expected goals vs an average defence) and <code>def</code> (expected goals conceded vs an average attack), neutral pitch. Raw rates are corrected: blowout outliers trimmed, minnow-inflated numbers and weak-schedule clean sheets regressed toward WC-level means, key absences docked (Pulisic, N'Dicka, R. Araújo, Neymar/Rodrygo, Yamal).</li>
-      <li><b>Expected goals per match.</b> <code>λ_home = atk_home × (def_away / 1.35) × venue</code>, symmetrically for the away side. Hosts (Mexico, USA) get ×1.10, opponent ×0.97; all other games neutral.</li>
-      <li><b>Scoreline distribution.</b> A bivariate Poisson grid (0–10 each) with the <b>Dixon-Coles</b> low-score correction (ρ=-0.07) to fix pure Poisson's under-count of 0-0/1-0/0-1/1-1.</li>
-      <li><b>Outputs.</b> Win/draw/loss, both-teams-to-score, over/under 2.5 and the most-likely scoreline are read straight off that matrix — fully reproducible.</li>
-    </ol>
-  </div>
 
   <section class="daygroup">
     <div class="dayhead"><span class="dot"></span><h2>Thursday, June 18 — Tonight</h2></div>
@@ -666,5 +658,16 @@ footer{margin-top:50px;color:var(--muted);font-size:12px;text-align:center;paddi
     </table></div>
     <div class="disclaimer"><b>⚠ What this is and isn't.</b> A transparent goals model is only as good as its rating inputs, and public per-match xG was unavailable for most teams — so several ratings rest on goal rates plus my judgement, not a fitted xG dataset. Managerial changes (Tunisia→Renard, Saudi→Donis), late injuries and lineups add variance the model can't see. Probabilities, not predictions, and market-free by design — for analysis/entertainment, not wagering advice.</div>
   </section>
+  <details class="method">
+    <summary>Methodology &amp; how this differs from the market report</summary>
+    <p class="mp"><b>How this differs from the first report.</b> The earlier page anchored its probabilities to bookmaker lines. This one ignores betting markets entirely: I gave each of the 24 teams an attack &amp; defence rating from raw scoring/conceding rates — correcting for schedule inflation (Belgium's 3.6 goals/game came vs UEFA minnows; Curaçao's 0.3 conceded was a CONCACAF artifact) — then simulated the full scoreline distribution. Most picks agree with the market, but the magnitudes differ: my model is more skeptical of Uruguay and more draw-leaning on Mexico–Korea.</p>
+    <ol>
+      <li><b>Raw inputs.</b> For all 24 teams: goals scored/conceded per game and any available xG/xGA over the last ~10–15 competitive matches (2026 qualifiers + 2025–26 friendlies + World Cup Matchday 1), plus strength-of-schedule.</li>
+      <li><b>Ratings.</b> Each team gets <code>atk</code> (expected goals vs an average defence) and <code>def</code> (expected goals conceded vs an average attack), neutral pitch. Raw rates are corrected: blowout outliers trimmed, minnow-inflated numbers and weak-schedule clean sheets regressed toward WC-level means, key absences docked (Pulisic, N'Dicka, R. Araújo, Neymar/Rodrygo, Yamal).</li>
+      <li><b>Expected goals per match.</b> <code>λ_home = atk_home × (def_away / 1.35) × venue</code>, symmetrically for the away side. Hosts (Mexico, USA) get ×1.10, opponent ×0.97; all other games neutral.</li>
+      <li><b>Scoreline distribution.</b> A bivariate Poisson grid (0–10 each) with the <b>Dixon-Coles</b> low-score correction (ρ=-0.07) to fix pure Poisson's under-count of 0-0/1-0/0-1/1-1.</li>
+      <li><b>Outputs.</b> Win/draw/loss, both-teams-to-score, over/under 2.5 and the most-likely scoreline are read straight off that matrix — fully reproducible.</li>
+    </ol>
+  </details>
   <footer><p>Independent Dixon-Coles Poisson model · built June 18, 2026 · raw data from qualifiers, friendlies &amp; Matchday 1 (ESPN, FIFA, Opta single-match xG, Wikipedia). No bookmaker odds used.</p></footer>
 </div></body></html>
